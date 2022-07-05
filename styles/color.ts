@@ -1,0 +1,1 @@
+export const theme = "#2759e5"
