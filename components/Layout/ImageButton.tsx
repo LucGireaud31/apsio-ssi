@@ -2,18 +2,19 @@ import { ImageSourcePropType,TouchableOpacity,Image, StyleSheet } from "react-na
 
 interface ImageButtonProps {
     source: ImageSourcePropType,
-    onPress(): void;
+    onPress?(): void;
     style?:any,
-    imageStyle?:any
+    imageStyle?:any,
+    size?:number
 }
-export function ImageButton({ source, onPress,style,imageStyle }: ImageButtonProps) {
-
-
+export function ImageButton(props: ImageButtonProps) {
     
+const { source, onPress,style,imageStyle ,size} = props;
+
 const styles = StyleSheet.create({
     image: {
-        width: 32,
-        height: 32,
+        width: size ?? 32,
+        height: size ?? 32,
         ...imageStyle
     },
     container:{

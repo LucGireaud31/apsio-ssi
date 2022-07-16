@@ -28,7 +28,7 @@ const LINKS = [
 
 export function Footer({ navigation }: any) {
 
-    const [selected, setSelected] = useState(0);
+    const [selected, setSelected] = useState(2);
 
     return (
         <View style={styles.container}>

@@ -23,15 +23,15 @@ export default function App() {
           }}
           component={SetSeed}
         /> */}
+        <Stack.Screen name="Home" component={Home} options={{
+          title: "Scanner Apsio Keeper", headerStyle: { backgroundColor: theme },
+          headerTintColor: "white",
+        }} />
         <Stack.Screen name="Profil" component={Profil} options={{
           title: "Luc Gireaud", headerStyle: { backgroundColor: theme },
           headerTintColor: "white",
           headerTitleAlign:"center",
           headerShadowVisible:false
-        }} />
-        <Stack.Screen name="Home" component={Home} options={{
-          title: "Scanner Apsio Keeper", headerStyle: { backgroundColor: theme },
-          headerTintColor: "white",
         }} />
       </Stack.Navigator>
     </NavigationContainer>
