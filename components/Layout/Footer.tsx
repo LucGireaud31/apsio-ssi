@@ -1,3 +1,4 @@
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useState } from "react";
 import { View, StyleSheet, Image, Text, TouchableOpacity, ImageSourcePropType } from "react-native";
 import { theme } from "../../styles/color";
@@ -5,41 +6,39 @@ import { ImageButton } from "./ImageButton"
 
 const LINKS = [
     {
-        source: require('../../assets/icons/user.png'),
-        name: "Profil"
+        source: require('../../assets/icons/arrows-down-up.png'),
+        name: "Send"
     },
     {
         source: require('../../assets/icons/cardholder.png'),
-        name: "Home"
-    },
-    {
-        source: require('../../assets/icons/arrows-down-up.png'),
-        name: "Home"
+        name: "Cards"
     },
     {
         source: require('../../assets/icons/bank.png'),
-        name: "Home"
+        name: "Banks"
     },
     {
         source: require('../../assets/icons/currency-eth.png'),
-        name: "Home"
+        name: "Cryptos"
+    },
+    {
+        source: require('../../assets/icons/user.png'),
+        name: "Profil"
     },
 ]
 
-export function Footer({ navigation }: any) {
-
-    const [selected, setSelected] = useState(2);
+export function Footer({ navigation }: BottomTabBarProps) {
 
     return (
         <View style={styles.container}>
             {LINKS.map((link, i) =>
                 <View key={i} style={{
                     ...styles.iconButton,
-                    backgroundColor: i == selected ? "#FFFFFF3B" : "#ffffff00",
+                    backgroundColor: (i == navigation.getState().index) ? "#FFFFFF3B" : "#ffffff00",
                 }
                 }>
                     <ImageButton source={link.source}
-                        onPress={() => { setSelected(i); navigation.navigate(link.name) }} />
+                        onPress={() => navigation.navigate(link.name)} />
                 </View>
             )}
         </View>
