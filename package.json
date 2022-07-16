@@ -9,8 +9,9 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
- "dependencies": {
+  "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.0",
+    "@react-navigation/bottom-tabs": "^6.3.2",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.2",
     "@waves/ts-lib-crypto": "^1.4.4-beta.1",

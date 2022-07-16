@@ -11,11 +11,8 @@ import {
 } from "@waves/ts-lib-crypto";
 import { theme } from "../../styles/color";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
 
 export function Home() {
-  const navigate = useNavigation();
-
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState(false);
   const [message, setMessage] = useState("");

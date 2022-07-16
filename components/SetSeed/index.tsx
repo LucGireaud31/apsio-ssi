@@ -23,8 +23,7 @@ export function SetSeed() {
   async function handleSave(){
     AsyncStorage.setItem("seed",seed);
 
-    // @ts-ignore
-    navigation.navigate("Home");
+    navigation.navigate({key:"Home"});
   }
 
   return (
