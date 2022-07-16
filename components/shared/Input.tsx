@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { LegacyRef, useState } from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native"
 import { theme } from "../../styles/color";
 
@@ -6,11 +6,12 @@ interface InputProps {
     label?: string,
     defaultValue?: string,
     onSubmit?(value: string): void,
+    inputRef?: LegacyRef<TextInput>
 
 };
 
 export function Input(props: InputProps) {
-    const { label, defaultValue, onSubmit } = props;
+    const { label, defaultValue, onSubmit,inputRef } = props;
 
     const [value, setValue] = useState(defaultValue ?? "")
 
@@ -22,8 +23,7 @@ export function Input(props: InputProps) {
         {label &&
             <Text style={styles.formLabel}>{label}</Text>}
         <View>
-            <TextInput style={styles.input} value={value} onChangeText={(newValue) => { setValue(newValue) }} onBlur={() => onSubmit && onSubmit(value)} />
-
+            <TextInput ref={inputRef} style={styles.input} value={value} onChangeText={(newValue) => { setValue(newValue) }} onBlur={() => onSubmit && onSubmit(value)} />
         </View>
     </View>
 }
