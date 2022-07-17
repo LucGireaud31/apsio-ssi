@@ -1,16 +1,15 @@
 import React from "react";
-import { Home } from "./components/Home";
 import {
   NavigationContainer,
 } from "@react-navigation/native";
 import { theme } from "./src/styles/color";
-import { Footer } from "./components/Layout/Footer";
-import { Profil } from "./components/Profil";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Cards } from "./components/Cards";
-import { Banks } from "./components/Banks";
-import { Send } from "./components/Send";
-import { Cryptos } from "./components/Cryptos";
+import { Banks } from "./src/components/Banks";
+import { Cards } from "./src/components/Cards";
+import { Cryptos } from "./src/components/Cryptos";
+import { Footer } from "./src/components/Layout/Footer";
+import { Profil } from "./src/components/Profil";
+import { Send } from "./src/components/Send";
 
 
 export default function App() {

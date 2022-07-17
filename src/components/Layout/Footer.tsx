@@ -1,28 +1,27 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { useState } from "react";
-import { View, StyleSheet, Image, Text, TouchableOpacity, ImageSourcePropType } from "react-native";
-import { theme } from "../../src/styles/color";
+import { View, StyleSheet } from "react-native";
+import { theme } from "../../styles/color";
 import { ImageButton } from "./ImageButton"
 
 const LINKS = [
     {
-        source: require('../../assets/icons/arrows-down-up.png'),
+        source: require('../../../assets/icons/arrows-down-up.png'),
         name: "Send"
     },
     {
-        source: require('../../assets/icons/cardholder.png'),
+        source: require('../../../assets/icons/cardholder.png'),
         name: "Cards"
     },
     {
-        source: require('../../assets/icons/bank.png'),
+        source: require('../../../assets/icons/bank.png'),
         name: "Banks"
     },
     {
-        source: require('../../assets/icons/currency-eth.png'),
+        source: require('../../../assets/icons/currency-eth.png'),
         name: "Cryptos"
     },
     {
-        source: require('../../assets/icons/user.png'),
+        source: require('../../../assets/icons/user.png'),
         name: "Profil"
     },
 ]

@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image } from "react-native"
-import { theme } from "../../src/styles/color";
+import { theme } from "../../styles/color";
 
 interface RoundedTopProps{
 };

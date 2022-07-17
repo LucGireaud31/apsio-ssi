@@ -1,8 +1,6 @@
 import { ReactNode, useRef, useState } from "react";
 import { View, StyleSheet, Image, Text, TouchableOpacity, TextInput } from "react-native"
-import { setProfil } from "../../localApi";
-import { theme } from "../../src/styles/color";
-import { sleep } from "../../src/utils/promise";
+import { setProfil } from "../../../localApi";
 import { ImageButton } from "../Layout/ImageButton";
 import { Input } from "../shared/Input";
 
@@ -55,7 +53,7 @@ export function DropDown(props: DropDownProps) {
                 <View style={styles.header} >
                     {icon}
                     <Text style={styles.label}>{label}</Text>
-                    <Image source={require("../../assets/icons/caret-right.png")} style={dynamicStyle.caretIcon} />
+                    <Image source={require("../../../assets/icons/caret-right.png")} style={dynamicStyle.caretIcon} />
 
                 </View>
                 {!isOpen &&
