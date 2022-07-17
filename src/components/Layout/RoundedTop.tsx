@@ -21,6 +21,6 @@ const styles = StyleSheet.create({
         backgroundColor:theme,
         position:"absolute",
         top:-220,
-        left:60
+        left:60,
     }
 });
