@@ -3,7 +3,7 @@ import { Home } from "./components/Home";
 import {
   NavigationContainer,
 } from "@react-navigation/native";
-import { theme } from "./styles/color";
+import { theme } from "./src/styles/color";
 import { Footer } from "./components/Layout/Footer";
 import { Profil } from "./components/Profil";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -19,19 +19,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Send" tabBar={props => <Footer {...props} />}>
-        {/* <Stack.Screen
-          name="Set seed"
-          options={{
-            title: "Modifier seed",
-            headerStyle: { backgroundColor: theme },
-            headerTintColor: "white",
-          }}
-          component={SetSeed}
-        /> */}
-        {/* <Stack.Screen name="Home" component={Home} options={{
-          title: "Scanner Apsio Keeper", headerStyle: { backgroundColor: theme },
-          headerTintColor: "white",
-        }} /> */}
         <Stack.Screen name="Send" component={Send} options={{
           title: "Envoyer mes données", headerStyle: { backgroundColor: theme },
           headerTintColor: "white",

@@ -1,6 +1,6 @@
 import { LegacyRef, useState } from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native"
-import { theme } from "../../styles/color";
+import { theme } from "../../src/styles/color";
 
 interface InputProps {
     label?: string,

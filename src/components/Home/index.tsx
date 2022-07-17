@@ -9,7 +9,7 @@ import {
   publicKey,
   sharedKey,
 } from "@waves/ts-lib-crypto";
-import { theme } from "../../styles/color";
+import { theme } from "../../src/styles/color";
 import axios from "axios";
 
 export function Home() {

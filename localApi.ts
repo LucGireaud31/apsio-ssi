@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { IProfil } from "./types/profil";
+import { IProfil } from "./src/types/profil";
 
 //////////////////////
 ///// Set Profil /////

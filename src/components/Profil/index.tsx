@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, Image } from "react-native"
-import { useLocalApi } from "../../hooks/useLoacalApi";
+import { useLocalApi } from "../../src/hooks/useLoacalApi";
 import { getProfil } from "../../localApi";
-import { IProfil } from "../../types/profil";
+import { IProfil } from "../../src/types/profil";
 import { Container } from "../Layout/Container";
 import { RoundedTop } from "../Layout/RoundedTop";
 import { DropDown } from "./DropDown";

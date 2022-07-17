@@ -1,8 +1,8 @@
 import { ReactNode, useRef, useState } from "react";
 import { View, StyleSheet, Image, Text, TouchableOpacity, TextInput } from "react-native"
 import { setProfil } from "../../localApi";
-import { theme } from "../../styles/color";
-import { sleep } from "../../utils/promise";
+import { theme } from "../../src/styles/color";
+import { sleep } from "../../src/utils/promise";
 import { ImageButton } from "../Layout/ImageButton";
 import { Input } from "../shared/Input";
 

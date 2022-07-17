@@ -1,7 +1,7 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useState } from "react";
 import { View, StyleSheet, Image, Text, TouchableOpacity, ImageSourcePropType } from "react-native";
-import { theme } from "../../styles/color";
+import { theme } from "../../src/styles/color";
 import { ImageButton } from "./ImageButton"
 
 const LINKS = [
