@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native"
 import { ICard } from "../../types/card";
 import { Button } from "../shared/Button";
@@ -13,10 +13,12 @@ export function CardSelector(props: CardSelectorProps) {
 
     const [cards, setCards] = useState(cardsProp)
 
+    const ref = useRef<ScrollView>(null)
+
     return (
         <View style={styles.container} >
 
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <ScrollView ref={ref} horizontal showsHorizontalScrollIndicator={false}>
 
                 {cards.map((card, i) =>
                     <View key={i} style={styles.cardContainer}>
@@ -24,7 +26,7 @@ export function CardSelector(props: CardSelectorProps) {
                     </View>
                 )}
             </ScrollView>
-            <Button style={styles.button} onPress={() => setCards([...cards, { cvv: "", id: "", name: "" }])}>Ajouter une carte</Button>
+            <Button style={styles.button} onPress={() => {setCards([...cards, { cvv: "", id: "", name: "" }]);ref.current?.scrollToEnd({animated:true})}}>Ajouter une carte</Button>
         </View>
     );
 }
