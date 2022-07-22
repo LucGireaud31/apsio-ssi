@@ -15,10 +15,10 @@ export function Card(props: CardProps) {
 
     return (
         <View style={styles.container}>
-            <TextInput style={styles.name} value={name} onChangeText={(newText)=>setName(newText)}/>
+            <TextInput style={styles.name} value={name} onChangeText={(newText)=>setName(newText)} placeholder="Nom de la carte..."  placeholderTextColor="#a7a7a7"/>
             <View style={styles.numberContainer}>
-                <TextInput style={styles.id} value={id} onChangeText={(newText)=>setId(newText)}/>
-                <TextInput style={styles.cvv} value={cvv} onChangeText={(newText)=>setCvv(newText)}/>
+                <TextInput style={styles.id} value={id} onChangeText={(newText)=>setId(newText)} placeholder="Numéro..."  placeholderTextColor="#a7a7a7" maxLength={16} keyboardType="numeric"/>
+                <TextInput style={styles.cvv} value={cvv} onChangeText={(newText)=>setCvv(newText)} placeholder="Cvv..." placeholderTextColor="#a7a7a7" maxLength={3} keyboardType="numeric"/>
             </View>
         </View>
     );
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         width: 300,
         height: 220,
-        backgroundColor: "#1C45B0",
+        backgroundColor: "#476dcf",
         paddingVertical: 20,
         paddingHorizontal: 40
     },

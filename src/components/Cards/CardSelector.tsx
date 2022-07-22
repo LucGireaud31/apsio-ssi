@@ -24,7 +24,7 @@ export function CardSelector(props: CardSelectorProps) {
                     </View>
                 )}
             </ScrollView>
-            <Button style={styles.button} onPress={() => setCards([...cards, { cvv: "XXX", id: "4545 05464 6464 5064", name: "Nom de la carte" }])}>Ajouter une carte</Button>
+            <Button style={styles.button} onPress={() => setCards([...cards, { cvv: "", id: "", name: "" }])}>Ajouter une carte</Button>
         </View>
     );
 }
