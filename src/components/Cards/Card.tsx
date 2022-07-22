@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { View, StyleSheet, Text,TextInput } from "react-native"
+import { View, StyleSheet, Text, TextInput } from "react-native"
 import { ICard } from "../../types/card";
+import MaskInput from 'react-native-mask-input';
 
 interface CardProps {
     card: ICard
@@ -9,16 +10,19 @@ interface CardProps {
 export function Card(props: CardProps) {
     const { card } = props;
 
-    const [name,setName] = useState(card.name)
-    const [cvv,setCvv] = useState(card.cvv)
-    const [id,setId] = useState(card.id)
+    const [name, setName] = useState(card.name)
+    const [cvv, setCvv] = useState(card.cvv)
+    const [id, setId] = useState(card.id)
 
     return (
         <View style={styles.container}>
-            <TextInput style={styles.name} value={name} onChangeText={(newText)=>setName(newText)} placeholder="Nom de la carte..."  placeholderTextColor="#a7a7a7"/>
+            <TextInput style={styles.name} value={name} onChangeText={(newText) => setName(newText)} placeholder="Nom de la carte..." placeholderTextColor="#a7a7a7" />
             <View style={styles.numberContainer}>
-                <TextInput style={styles.id} value={id} onChangeText={(newText)=>setId(newText)} placeholder="Numéro..."  placeholderTextColor="#a7a7a7" maxLength={16} keyboardType="numeric"/>
-                <TextInput style={styles.cvv} value={cvv} onChangeText={(newText)=>setCvv(newText)} placeholder="Cvv..." placeholderTextColor="#a7a7a7" maxLength={3} keyboardType="numeric"/>
+                <MaskInput style={styles.id} value={"" + id} onChangeText={(newText) => setId(newText)} placeholder="Numéro..." placeholderTextColor="#a7a7a7" maxLength={19}
+                keyboardType="numeric" 
+                mask={[/\d/, /\d/, /\d/, /\d/, ' ',/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/]}
+                />
+                <TextInput style={styles.cvv} value={cvv} onChangeText={(newText) => setCvv(newText)} placeholder="Cvv..." placeholderTextColor="#a7a7a7" maxLength={3} keyboardType="numeric" />
             </View>
         </View>
     );
@@ -47,6 +51,6 @@ const styles = StyleSheet.create({
     numberContainer: {
         marginTop: 80,
         flexDirection: "row",
-        justifyContent:"space-between"
+        justifyContent: "space-between"
     }
 });
