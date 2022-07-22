@@ -1,4 +1,5 @@
-import { View, StyleSheet, Text } from "react-native"
+import { useState } from "react";
+import { View, StyleSheet, Text,TextInput } from "react-native"
 import { ICard } from "../../types/card";
 
 interface CardProps {
@@ -8,12 +9,16 @@ interface CardProps {
 export function Card(props: CardProps) {
     const { card } = props;
 
+    const [name,setName] = useState(card.name)
+    const [cvv,setCvv] = useState(card.cvv)
+    const [id,setId] = useState(card.id)
+
     return (
         <View style={styles.container}>
-            <Text style={styles.name}>{card.nom}</Text>
+            <TextInput style={styles.name} value={name} onChangeText={(newText)=>setName(newText)}/>
             <View style={styles.numberContainer}>
-                <Text style={styles.id}>{card.id}</Text>
-                <Text style={styles.cvv}>{card.cvv}</Text>
+                <TextInput style={styles.id} value={id} onChangeText={(newText)=>setId(newText)}/>
+                <TextInput style={styles.cvv} value={cvv} onChangeText={(newText)=>setCvv(newText)}/>
             </View>
         </View>
     );
@@ -22,8 +27,8 @@ export function Card(props: CardProps) {
 const styles = StyleSheet.create({
     container: {
         borderRadius: 15,
-        width: 350,
-        height: 250,
+        width: 300,
+        height: 220,
         backgroundColor: "#1C45B0",
         paddingVertical: 20,
         paddingHorizontal: 40

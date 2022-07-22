@@ -1,5 +1,6 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { View, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import { View, StyleSheet, Keyboard } from "react-native";
 import { theme } from "../../styles/color";
 import { ImageButton } from "./ImageButton"
 
@@ -27,6 +28,21 @@ const LINKS = [
 ]
 
 export function Footer({ navigation }: BottomTabBarProps) {
+
+    const [visible, setVisible] = useState(true);
+
+    useEffect(() => {
+        const onShow = Keyboard.addListener('keyboardDidShow', () => setVisible(false))
+        const onHide = Keyboard.addListener('keyboardDidHide', () => setVisible(true))
+        return () => {
+            onShow.remove();
+            onHide.remove();
+        }
+    }, [])
+
+    if (!visible) {
+        return <></>
+    }
 
     return (
         <View style={styles.container}>

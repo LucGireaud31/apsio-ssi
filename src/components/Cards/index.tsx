@@ -30,28 +30,22 @@ export function Cards(props: CardsProps) {
     const { data: cards, isLoading } = useLocalApi<{ [key: string]: ICard[] }>({ promise: () => getCards() })
 
     return (
-        <View style={styles.container}>
+        <View >
             <RoundedTop />
-            {!isLoading &&
-                <CardSelector cards={cards ? cards[selectedMenu] : []}/>}
-            <View style={styles.scrollMenu}>
+            <View >
                 <HorizontalScrollMenu
                     items={navigationTabs}
                     onPress={(route) => setSelectedMenu(route.id)}
                     selected={selectedMenu}
                     itemWidth={150}
-                    activeBackgroundColor={theme}
+                    activeBackgroundColor="white"
+                    activeTextColor={theme}
+                    buttonStyle={{ borderWidth: 0 }}
+                    textStyle={{ color: "white" }}
                 />
             </View>
+            {!isLoading &&
+                <CardSelector cards={cards ? cards[selectedMenu] : []} />}
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    scrollMenu: {
-        backgroundColor: "white"
-    }
-});

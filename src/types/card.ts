@@ -1,6 +1,6 @@
 export interface ICard{
     id?:string
-    nom?:string,
+    name?:string,
     cvv?:string,
     
 }
