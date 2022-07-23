@@ -1,24 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native"
 import { ICard } from "../../types/card";
 import MaskInput from 'react-native-mask-input';
+import { setCard } from "../../../localApi";
 
 interface CardProps {
     card: ICard
+    index:number
 };
 
 export function Card(props: CardProps) {
-    const { card } = props;
+    const { card,index } = props;
 
     const [name, setName] = useState(card.name)
     const [cvv, setCvv] = useState(card.cvv)
-    const [id, setId] = useState(card.id)
+    const [number, setNumber] = useState(card.number)
+
+    useEffect(()=>{
+        setCard(index,0,{name,number,cvv})
+    },[name,cvv,number])
 
     return (
         <View style={styles.container}>
             <TextInput style={styles.name} value={name} onChangeText={(newText) => setName(newText)} placeholder="Nom de la carte..." placeholderTextColor="#a7a7a7" />
             <View style={styles.numberContainer}>
-                <MaskInput style={styles.id} value={"" + id} onChangeText={(newText) => setId(newText)} placeholder="Numéro..." placeholderTextColor="#a7a7a7" maxLength={19}
+                <MaskInput style={styles.number} value={"" + number} onChangeText={(newText) => setNumber(newText)} placeholder="Numéro..." placeholderTextColor="#a7a7a7" maxLength={19}
                 keyboardType="numeric" 
                 mask={[/\d/, /\d/, /\d/, /\d/, ' ',/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/]}
                 />
@@ -42,7 +48,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         fontWeight: "bold",
-    }, id: {
+    }, number: {
         color: "white",
     },
     cvv: {

@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native"
+import { addCard } from "../../../localApi";
 import { ICard } from "../../types/card";
 import { Button } from "../shared/Button";
 import { Card } from "./Card";
@@ -22,11 +23,18 @@ export function CardSelector(props: CardSelectorProps) {
 
                 {cards.map((card, i) =>
                     <View key={i} style={styles.cardContainer}>
-                        <Card card={card} />
+                        <Card card={card} index={i} />
                     </View>
                 )}
             </ScrollView>
-            <Button style={styles.button} onPress={() => {setCards([...cards, { cvv: "", id: "", name: "" }]);ref.current?.scrollToEnd({animated:true})}}>Ajouter une carte</Button>
+            <Button style={styles.button} onPress={async () => {
+                const newCards = await addCard(0);
+                console.log(newCards)
+                if (newCards) {
+                    setCards(newCards[0]);
+                }
+                ref.current?.scrollToEnd({ animated: true })
+            }}>Ajouter une carte</Button>
         </View>
     );
 }
@@ -34,15 +42,15 @@ export function CardSelector(props: CardSelectorProps) {
 const styles = StyleSheet.create({
     container: {
         marginTop: "50%",
-        alignItems:"center",
-        height:300
+        alignItems: "center",
+        height: 300
     },
     cardContainer: {
         marginHorizontal: 20,
     },
-    button:{
-        marginTop:40,
-        width:200,
-        
+    button: {
+        marginTop: 40,
+        width: 200,
+
     }
 });

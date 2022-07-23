@@ -1,5 +1,5 @@
 export interface ICard{
-    id?:string
+    number?:string,
     name?:string,
     cvv?:string,
     
