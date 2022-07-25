@@ -40,7 +40,7 @@ export async function setProfil(accessor: string, newValue: string) {
 
 export async function getCards(): Promise<{ [key: string]: ICard[] } | null> {
     const cards = await AsyncStorage.getItem("cards");
-
+    console.log("cards :",cards)
     try {
         return cards ? JSON.parse(cards) : null
     } catch (err) {
@@ -71,6 +71,16 @@ export async function setCard(index: number, menu: number, newCard: ICard) {
 
     if (cards) {
         cards[menu][index] = newCard
+    }
+
+    AsyncStorage.setItem("cards", cards ? JSON.stringify(cards) : "");
+
+}
+export async function removeCard(index: number, menu: number) {
+    const cards = await getCards();
+    console.log(cards)
+    if (cards) {
+        cards[menu] = cards[menu].filter((_,i)=>i != index)
     }
 
     AsyncStorage.setItem("cards", cards ? JSON.stringify(cards) : "");
