@@ -1,12 +1,9 @@
-import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
+import { View } from "react-native";
 import { RoundedTop } from "../Layout/RoundedTop";
 import HorizontalScrollMenu from "@nyashanziramasanga/react-native-horizontal-scroll-menu/src";
 import { useState } from "react";
 import { theme } from "../../styles/color";
 import { CardSelector } from "./CardSelector";
-import { useLocalApi } from "../../hooks/useLoacalApi";
-import { getCards } from "../../../localApi";
-import { ICard } from "../../types/card";
 
 interface CardsProps {}
 

@@ -9,17 +9,18 @@ interface CardProps {
   card: ICard;
   index: number;
   onDelete(): void;
+  onChange(name: string, number: string, cvv: string): void;
 }
 
 export function Card(props: CardProps) {
-  const { card, index, onDelete } = props;
+  const { card, index, onDelete, onChange } = props;
 
   const [name, setName] = useState(card.name);
   const [cvv, setCvv] = useState(card.cvv);
   const [number, setNumber] = useState(card.number);
 
   useEffect(() => {
-    setCard(index, 0, { name, number, cvv });
+    onChange(name ?? "", number ?? "", cvv ?? "");
   }, [name, cvv, number]);
 
   return (

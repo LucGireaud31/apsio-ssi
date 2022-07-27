@@ -16,7 +16,9 @@ export function CardSelector(props: CardSelectorProps) {
 
   useEffect(() => {
     (async () => {
-      setCards((await getCards())?.[menu] ?? []);
+      const newCards = (await getCards())?.[menu] ?? [];
+
+      setCards(newCards);
     })();
   }, [menu]);
 
@@ -36,6 +38,9 @@ export function CardSelector(props: CardSelectorProps) {
                 removeCard(i, menu);
                 ref.current?.scrollToEnd({ animated: true });
               }}
+              onChange={(name, number, cvv) =>
+                setCard(i, menu, { name, number, cvv })
+              }
             />
           </View>
         ))}
@@ -44,7 +49,6 @@ export function CardSelector(props: CardSelectorProps) {
         style={styles.button}
         onPress={async () => {
           const newCards = await addCard(menu);
-          console.log("add:", newCards);
 
           if (newCards[menu]) {
             setCards(newCards[menu]);
