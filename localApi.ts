@@ -40,7 +40,7 @@ export async function setProfil(accessor: string, newValue: string) {
 
 export async function getCards(): Promise<{ [key: string]: ICard[] } | null> {
     const cards = await AsyncStorage.getItem("cards");
-    console.log("cards :",cards)
+    console.log(" get cards :",cards)
     try {
         return cards ? JSON.parse(cards) : null
     } catch (err) {
@@ -52,10 +52,10 @@ export async function getCards(): Promise<{ [key: string]: ICard[] } | null> {
 export async function addCard(menu: number) {
     let cards = await getCards();
 
-    if (cards) {
+    if (cards && cards[menu]) {
         cards[menu].push({})
     } else {
-        let tempsCards: { [key: string]: ICard[] } = {}
+        let tempsCards: { [key: string]: ICard[] } = cards ?? {}
         tempsCards[menu] = [{}]
         cards = { ...tempsCards }
     }
@@ -78,7 +78,7 @@ export async function setCard(index: number, menu: number, newCard: ICard) {
 }
 export async function removeCard(index: number, menu: number) {
     const cards = await getCards();
-    console.log(cards)
+
     if (cards) {
         cards[menu] = cards[menu].filter((_,i)=>i != index)
     }

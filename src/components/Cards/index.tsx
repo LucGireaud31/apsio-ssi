@@ -1,6 +1,6 @@
-import { View, StyleSheet, ScrollView, Dimensions } from "react-native"
+import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { RoundedTop } from "../Layout/RoundedTop";
-import HorizontalScrollMenu from '@nyashanziramasanga/react-native-horizontal-scroll-menu/src';
+import HorizontalScrollMenu from "@nyashanziramasanga/react-native-horizontal-scroll-menu/src";
 import { useState } from "react";
 import { theme } from "../../styles/color";
 import { CardSelector } from "./CardSelector";
@@ -8,44 +8,40 @@ import { useLocalApi } from "../../hooks/useLoacalApi";
 import { getCards } from "../../../localApi";
 import { ICard } from "../../types/card";
 
-interface CardsProps {
-};
+interface CardsProps {}
 
 const navigationTabs = [
-    {
-        id: 0,
-        name: 'Carte bleue',
-    },
-    {
-        id: 1,
-        name: 'Carte d\'identité',
-    }
+  {
+    id: 0,
+    name: "Carte bleue",
+  },
+  {
+    id: 1,
+    name: "Carte d'identité",
+  },
 ];
 
 export function Cards(props: CardsProps) {
-    const { } = props;
+  const {} = props;
 
-    const [selectedMenu, setSelectedMenu] = useState(0);
+  const [selectedMenu, setSelectedMenu] = useState(0);
 
-    const { data: cards, isLoading } = useLocalApi<{ [key: string]: ICard[] }>({ promise: () => getCards() })
-
-    return (
-        <View >
-            <RoundedTop />
-            <View >
-                <HorizontalScrollMenu
-                    items={navigationTabs}
-                    onPress={(route) => setSelectedMenu(route.id)}
-                    selected={selectedMenu}
-                    itemWidth={150}
-                    activeBackgroundColor="white"
-                    activeTextColor={theme}
-                    buttonStyle={{ borderWidth: 0 }}
-                    textStyle={{ color: "white" }}
-                />
-            </View>
-            {!isLoading &&
-                <CardSelector cards={cards ? cards[selectedMenu] : []} />}
-        </View>
-    );
+  return (
+    <View>
+      <RoundedTop />
+      <View>
+        <HorizontalScrollMenu
+          items={navigationTabs}
+          onPress={(route) => setSelectedMenu(route.id)}
+          selected={selectedMenu}
+          itemWidth={150}
+          activeBackgroundColor="white"
+          activeTextColor={theme}
+          buttonStyle={{ borderWidth: 0 }}
+          textStyle={{ color: "white" }}
+        />
+      </View>
+      <CardSelector menu={selectedMenu} />
+    </View>
+  );
 }

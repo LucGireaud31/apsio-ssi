@@ -1,18 +1,24 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import { addCard, removeCard, setCard } from "../../../localApi";
+import { addCard, getCards, removeCard, setCard } from "../../../localApi";
 import { ICard } from "../../types/card";
 import { Button } from "../shared/Button";
 import { Card } from "./Card";
 
 interface CardSelectorProps {
-  cards: ICard[];
+  menu: number;
 }
 
 export function CardSelector(props: CardSelectorProps) {
-  const { cards: cardsProp } = props;
+  const { menu } = props;
 
-  const [cards, setCards] = useState(cardsProp);
+  const [cards, setCards] = useState<ICard[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      setCards((await getCards())?.[menu] ?? []);
+    })();
+  }, [menu]);
 
   const ref = useRef<ScrollView>(null);
 
@@ -27,7 +33,8 @@ export function CardSelector(props: CardSelectorProps) {
               onDelete={() => {
                 const newCards = cards.filter((_, j) => i != j);
                 setCards(newCards);
-                removeCard(i, 0);
+                removeCard(i, menu);
+                ref.current?.scrollToEnd({ animated: true });
               }}
             />
           </View>
@@ -36,11 +43,13 @@ export function CardSelector(props: CardSelectorProps) {
       <Button
         style={styles.button}
         onPress={async () => {
-          const newCards = await addCard(0);
-          console.log(newCards);
-          if (newCards) {
-            setCards(newCards[0]);
+          const newCards = await addCard(menu);
+          console.log("add:", newCards);
+
+          if (newCards[menu]) {
+            setCards(newCards[menu]);
           }
+
           ref.current?.scrollToEnd({ animated: true });
         }}
       >
