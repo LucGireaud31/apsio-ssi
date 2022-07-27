@@ -1,30 +1,53 @@
-import { ImageSourcePropType,TouchableOpacity,Image, StyleSheet } from "react-native";
+import {
+  ImageSourcePropType,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  View,
+} from "react-native";
 
 interface ImageButtonProps {
-    source: ImageSourcePropType,
-    onPress?(): void;
-    style?:any,
-    imageStyle?:any,
-    size?:number
+  source: ImageSourcePropType;
+  onPress?(): void;
+  style?: any;
+  imageStyle?: any;
+  size?: number;
+  disable?: boolean;
 }
 export function ImageButton(props: ImageButtonProps) {
-    
-const { source, onPress,style,imageStyle ,size} = props;
+  const { source, onPress, style, imageStyle, disable } = props;
 
-const styles = StyleSheet.create({
+  const size = props.size ?? 32;
+
+  const styles = StyleSheet.create({
     image: {
-        width: size ?? 32,
-        height: size ?? 32,
-        ...imageStyle
+      width: size,
+      height: size,
+      ...imageStyle,
     },
-    container:{
-        ...style
-    }
-})
+    container: {
+      position: "relative",
+      ...style,
+    },
+    disable: {
+      position: "absolute",
+      height: size * 1.5,
+      width: size * 1.5,
+      backgroundColor: "#00000050",
+      borderRadius: size,
+      top: -size / 4,
+      left: -size / 4,
+    },
+  });
 
-    return <TouchableOpacity onPress={onPress} style={styles.container} >
-        <Image
-            source={source}
-            style={styles.image} />
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={styles.container}
+      disabled={disable}
+    >
+      <Image source={source} style={styles.image} />
+      {disable && <View style={styles.disable} />}
     </TouchableOpacity>
+  );
 }
