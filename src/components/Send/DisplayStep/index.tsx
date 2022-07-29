@@ -25,10 +25,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: 40,
+    marginHorizontal: 80,
     borderRadius: 100,
     paddingRight: 5,
-    marginTop: 30,
+    marginTop: 40,
   },
   stepContainer: {
     width: "33%",
