@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { ICard } from "../../types/card";
 import MaskInput from "react-native-mask-input";
-import { setCard } from "../../../localApi";
 import { ImageButton } from "../Layout/ImageButton";
 
 interface CardProps {
@@ -18,6 +17,12 @@ export function Card(props: CardProps) {
   const [name, setName] = useState(card.name);
   const [cvv, setCvv] = useState(card.cvv);
   const [number, setNumber] = useState(card.number);
+
+  useEffect(() => {
+    setName(card.name);
+    setCvv(card.cvv);
+    setNumber(card.number);
+  }, [card]);
 
   useEffect(() => {
     onChange(name ?? "", number ?? "", cvv ?? "");

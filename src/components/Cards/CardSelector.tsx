@@ -38,9 +38,11 @@ export function CardSelector(props: CardSelectorProps) {
                 removeCard(i, menu);
                 ref.current?.scrollToEnd({ animated: true });
               }}
-              onChange={(name, number, cvv) =>
-                setCard(i, menu, { name, number, cvv })
-              }
+              onChange={async (name, number, cvv) => {
+                console.log("changement");
+                const newCards = await setCard(i, menu, { name, number, cvv });
+                setCards(newCards ? newCards[menu] : []);
+              }}
             />
           </View>
         ))}
