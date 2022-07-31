@@ -1,22 +1,32 @@
-import { ReactNode, useState } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
 import { theme } from "../../styles/color";
-import DropDownPicker from "react-native-dropdown-picker";
+import DropDownPicker, { ValueType } from "react-native-dropdown-picker";
 
 interface DataSelectorProps {
   label: string;
   source: any;
+  onChange(values: ValueType[]): void;
+  items: { label: string; value: string }[];
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  onOpen(): void;
 }
 
 export function DataSelector(props: DataSelectorProps) {
-  const { label, source } = props;
+  const { label, source, onChange, items, open, setOpen, onOpen } = props;
 
-  const [open, setOpen] = useState(false);
   const [value, setValue] = useState([]);
-  const [items, setItems] = useState([
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
-  ]);
+
+  useEffect(() => {
+    onChange(value);
+  }, [value]);
 
   return (
     <View style={styles.container}>
@@ -27,20 +37,29 @@ export function DataSelector(props: DataSelectorProps) {
       <DropDownPicker
         multiple
         open={open}
+        onOpen={onOpen}
         value={value}
         items={items}
         setOpen={setOpen}
         setValue={setValue}
-        setItems={setItems}
         style={styles.dropdown}
         placeholder="Aucun élément sélectionné"
+        mode="BADGE"
+        dropDownContainerStyle={{
+          zIndex: 10000,
+          borderColor: theme,
+          marginTop: 9,
+          paddingTop: 9,
+        }}
+        badgeDotStyle={{ display: "none" }}
+        closeOnBackPressed={true}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { marginTop: 20 },
+  container: { marginTop: 20, height: 100 },
   icon: {
     width: 32,
     height: 32,
