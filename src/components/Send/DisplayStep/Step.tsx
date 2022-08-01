@@ -1,14 +1,15 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { theme } from "../../../styles/color";
 
 interface StepProps {
   disabled: boolean;
   validated: boolean;
   index: number;
+  onPress(): void;
 }
 
 export function Step(props: StepProps) {
-  const { disabled, validated, index } = props;
+  const { disabled, validated, index, onPress } = props;
 
   const styles = StyleSheet.create({
     container: {
@@ -31,15 +32,17 @@ export function Step(props: StepProps) {
     text: {
       fontWeight: "bold",
       textAlign: "center",
-      ...(validated && {
-        color: "white",
-      }),
+      color: validated ? "white" : "black",
     },
   });
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      disabled={!validated}
+      onPress={onPress}
+    >
       <Text style={styles.text}>{index}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }

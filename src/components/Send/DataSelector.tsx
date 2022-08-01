@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
 import { theme } from "../../styles/color";
 import DropDownPicker, { ValueType } from "react-native-dropdown-picker";

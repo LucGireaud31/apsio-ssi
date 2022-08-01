@@ -4,16 +4,22 @@ import { Step } from "./Step";
 interface DisplayStepProps {
   steps: number;
   step: number;
+  navigate(step: number): void;
 }
 
 export function DisplayStep(props: DisplayStepProps) {
-  const { steps, step } = props;
+  const { steps, step, navigate } = props;
 
   return (
     <View style={styles.container}>
       {Array.from({ length: steps }).map((_, i) => (
         <View key={i} style={styles.stepContainer}>
-          <Step disabled={i > step} validated={i < step} index={i + 1} />
+          <Step
+            disabled={i > step}
+            validated={i < step}
+            index={i + 1}
+            onPress={() => navigate(i)}
+          />
         </View>
       ))}
     </View>

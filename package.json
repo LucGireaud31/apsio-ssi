@@ -28,11 +28,13 @@
     "react-native-camera": "^4.2.1",
     "react-native-dropdown-picker": "^5.4.2",
     "react-native-mask-input": "^1.2.0",
+    "react-native-pager-view": "5.4.9",
     "react-native-permissions": "^3.3.1",
     "react-native-qrcode-scanner": "^1.5.5",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-scrolling-menu": "^0.1.1",
+    "react-native-tab-view": "^3.1.1",
     "react-native-web": "0.17.1"
   },
   "devDependencies": {
