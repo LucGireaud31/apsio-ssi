@@ -14,10 +14,12 @@ interface ButtonProps {
   style?: any;
   onPress?(): void;
   rightIcon?: ReactNode;
+  leftIcon?: ReactNode;
+  fontSize?: number;
 }
 
 export function Button(props: ButtonProps) {
-  const { children, style, onPress, rightIcon } = props;
+  const { children, style, onPress, rightIcon, leftIcon, fontSize } = props;
 
   const styles = StyleSheet.create({
     container: {
@@ -33,16 +35,23 @@ export function Button(props: ButtonProps) {
     label: {
       color: "white",
       textAlign: "center",
+      fontSize: fontSize ?? 14,
     },
     rightIcon: {
       position: "absolute",
       zIndex: 999,
       right: 10,
     },
+    leftIcon: {
+      position: "absolute",
+      zIndex: 999,
+      left: 10,
+    },
   });
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
+      <View style={styles.leftIcon}>{leftIcon}</View>
       <Text style={styles.label}>{children}</Text>
       <View style={styles.rightIcon}>{rightIcon}</View>
     </TouchableOpacity>

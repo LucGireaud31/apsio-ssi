@@ -1,9 +1,10 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { getProfil, getCards } from "../../../localApi";
 import { useLocalApi } from "../../hooks/useLoacalApi";
 import { ICard } from "../../types/card";
 import { IProfil } from "../../types/profil";
+import { SharedValuesType } from "../../types/send";
 import { Container } from "../Layout/Container";
 import { Button } from "../shared/Button";
 import { DataSelector } from "./DataSelector";
@@ -12,11 +13,6 @@ interface SelectDataViewProps {
   onNextStep(v: SharedValuesType): void;
   defaultSharedValues: SharedValuesType;
 }
-
-export type SharedValuesType = {
-  profil: string[];
-  cards: string[];
-};
 
 export function SelectDataView(props: SelectDataViewProps) {
   const { onNextStep, defaultSharedValues } = props;
@@ -120,6 +116,7 @@ const styles = StyleSheet.create({
   container: { marginTop: 20, height: "103%" },
   text: {
     color: "#C1C1C1",
+    textAlign: "center",
   },
   icon: {
     width: 32,

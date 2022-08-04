@@ -3,8 +3,9 @@ import { View } from "react-native";
 import { RoundedTop } from "../Layout/RoundedTop";
 import { DisplayStep } from "./DisplayStep";
 import { TabView, SceneMap } from "react-native-tab-view";
-import { SelectDataView, SharedValuesType } from "./SelectDataView";
+import { SelectDataView } from "./SelectDataView";
 import { SelectSendTypeView } from "./SelectSendTypeView";
+import { SendType, SharedValuesType } from "../../types/send";
 
 export function Send() {
   const [step, setStep] = useState(0);
@@ -13,6 +14,7 @@ export function Send() {
     cards: [],
     profil: [],
   });
+  const [sendType, setSendType] = useState<SendType | undefined>();
 
   const SecondRoute = () => (
     <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
@@ -29,10 +31,10 @@ export function Send() {
       }),
     second: () =>
       SelectSendTypeView({
-        onNextStep: () => {
+        onNextStep: (sendType) => {
+          setSendType(sendType);
           setStep(2);
         },
-        sharedValues,
       }),
     third: SecondRoute,
   });
