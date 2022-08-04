@@ -36,9 +36,11 @@ export function SelectSendTypeView(props: SelectSendTypeViewProps) {
   const { onNextStep } = props;
 
   return (
-    <Container style={styles.container} fix>
-      <Text style={styles.text}>Choisir le mode de diffusion des données</Text>
-
+    <Container
+      style={styles.container}
+      label="Choisir le mode de diffusion"
+      fix
+    >
       {BUTTONS.map((button, i) => (
         <Button
           key={i}
@@ -46,6 +48,12 @@ export function SelectSendTypeView(props: SelectSendTypeViewProps) {
           onPress={() => {
             onNextStep(button.value);
           }}
+          rightIcon={
+            <Image
+              source={require("../../../assets/icons/caret-right_white.png")}
+              style={styles.rightIcon}
+            />
+          }
           style={styles.button}
           fontSize={18}
         >
@@ -58,16 +66,16 @@ export function SelectSendTypeView(props: SelectSendTypeViewProps) {
 
 const styles = StyleSheet.create({
   container: { marginTop: 20, height: "103%" },
-  text: {
-    color: "#C1C1C1",
-    textAlign: "center",
-  },
   leftIcon: {
     width: 32,
     height: 32,
   },
+  rightIcon: {
+    width: 22,
+    height: 22,
+  },
   button: {
     marginTop: 80,
-    height: 50,
+    height: 45,
   },
 });

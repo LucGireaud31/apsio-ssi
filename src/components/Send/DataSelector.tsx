@@ -1,17 +1,20 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
 import { theme } from "../../styles/color";
-import DropDownPicker, { ValueType } from "react-native-dropdown-picker";
+import DropDownPicker, {
+  ItemType,
+  ValueType,
+} from "react-native-dropdown-picker";
 
 interface DataSelectorProps {
   label: string;
   source: any;
-  onChange(values: ValueType[]): void;
+  onChange(values: ItemType<any>[]): void;
   items: { label: string; value: string }[];
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   onOpen(): void;
-  defaultValue: any[];
+  defaultValue: ItemType<any>[];
 }
 
 export function DataSelector(props: DataSelectorProps) {
@@ -26,7 +29,7 @@ export function DataSelector(props: DataSelectorProps) {
     defaultValue,
   } = props;
 
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState(defaultValue.map((v) => v.value));
 
   return (
     <View style={styles.container}>
@@ -44,7 +47,7 @@ export function DataSelector(props: DataSelectorProps) {
         setValue={setValue}
         style={styles.dropdown}
         onSelectItem={(items) => {
-          onChange(items.map((i) => i.value));
+          onChange(items);
         }}
         placeholder="Aucun élément sélectionné"
         mode="BADGE"

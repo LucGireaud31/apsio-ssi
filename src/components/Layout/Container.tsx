@@ -1,21 +1,15 @@
 import { ReactNode } from "react";
-import {
-  View,
-  StyleSheet,
-  Image,
-  StyleProp,
-  ViewStyle,
-  ScrollView,
-} from "react-native";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 
 interface ContainerProps {
   children: ReactNode;
   style?: any;
   fix?: boolean;
+  label?: string;
 }
 
 export function Container(props: ContainerProps) {
-  const { children, style, fix } = props;
+  const { children, style, fix, label } = props;
 
   const styles = StyleSheet.create({
     container: {
@@ -30,18 +24,28 @@ export function Container(props: ContainerProps) {
       paddingVertical: 30,
       ...style,
     },
+    text: {
+      color: "#C1C1C1",
+      textAlign: "center",
+    },
   });
 
   if (fix) {
     return (
       <View style={styles.container}>
-        <View style={styles.content}>{children}</View>
+        <View style={styles.content}>
+          {label && <Text style={styles.text}>{label}</Text>}
+          {children}
+        </View>
       </View>
     );
   }
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.content}>{children}</View>
+      <View style={styles.content}>
+        {label && <Text style={styles.text}>{label}</Text>}
+        {children}
+      </View>
     </ScrollView>
   );
 }

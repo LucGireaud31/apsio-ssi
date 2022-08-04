@@ -57,8 +57,11 @@ export function SelectDataView(props: SelectDataViewProps) {
   if (!profil || !cards) return <></>;
 
   return (
-    <Container style={styles.container} fix>
-      <Text style={styles.text}>Sélectionner les informations à envoyer</Text>
+    <Container
+      style={styles.container}
+      label="Sélectionner les informations à envoyer"
+      fix
+    >
       <View style={styles.dropDownContainer}>
         <DataSelector
           label="Profil"
@@ -70,7 +73,7 @@ export function SelectDataView(props: SelectDataViewProps) {
           onChange={(newValues) => {
             setSharedValues({
               ...sharedValues,
-              profil: newValues.map((nv) => nv.toLocaleString()),
+              profil: newValues,
             });
           }}
           open={openProfil}
@@ -85,7 +88,7 @@ export function SelectDataView(props: SelectDataViewProps) {
           onChange={(newValues) => {
             setSharedValues({
               ...sharedValues,
-              cards: newValues.map((nv) => nv.toLocaleString()),
+              cards: newValues,
             });
           }}
           open={openCards}
@@ -114,10 +117,6 @@ export function SelectDataView(props: SelectDataViewProps) {
 
 const styles = StyleSheet.create({
   container: { marginTop: 20, height: "103%" },
-  text: {
-    color: "#C1C1C1",
-    textAlign: "center",
-  },
   icon: {
     width: 32,
     height: 32,
