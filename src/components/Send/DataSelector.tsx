@@ -30,6 +30,17 @@ export function DataSelector(props: DataSelectorProps) {
   } = props;
 
   const [value, setValue] = useState(defaultValue.map((v) => v.value));
+  const [selectedItems, setSelectedItems] = useState(defaultValue);
+
+  useEffect(() => {
+    if (selectedItems.length > value.length) {
+      const newSelected = selectedItems.filter((item) =>
+        value.includes(item.value)
+      );
+      setSelectedItems(newSelected);
+      onChange(newSelected);
+    }
+  }, [value]);
 
   return (
     <View style={styles.container}>
@@ -48,6 +59,7 @@ export function DataSelector(props: DataSelectorProps) {
         style={styles.dropdown}
         onSelectItem={(items) => {
           onChange(items);
+          setSelectedItems(items);
         }}
         placeholder="Aucun élément sélectionné"
         mode="BADGE"
