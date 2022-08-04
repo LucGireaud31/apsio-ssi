@@ -1,15 +1,25 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
+import { SharedValuesType } from "./SelectDataView";
+import { Container } from "../Layout/Container";
 
 interface SelectSendTypeViewProps {
-  onNextStep(): void;
+  onNextStep(v: SharedValuesType): void;
+  sharedValues: SharedValuesType;
 }
 
 export function SelectSendTypeView(props: SelectSendTypeViewProps) {
-  const { onNextStep } = props;
+  const { onNextStep, sharedValues } = props;
 
-  return <View style={styles.container}></View>;
+  return (
+    <Container style={styles.container} fix>
+      <Text>{JSON.stringify(sharedValues)}</Text>
+    </Container>
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { marginTop: 20, height: "103%" },
+  text: {
+    color: "#C1C1C1",
+  },
 });

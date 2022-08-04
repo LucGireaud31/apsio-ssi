@@ -11,16 +11,22 @@ interface DataSelectorProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   onOpen(): void;
+  defaultValue: any[];
 }
 
 export function DataSelector(props: DataSelectorProps) {
-  const { label, source, onChange, items, open, setOpen, onOpen } = props;
+  const {
+    label,
+    source,
+    onChange,
+    items,
+    open,
+    setOpen,
+    onOpen,
+    defaultValue,
+  } = props;
 
-  const [value, setValue] = useState([]);
-
-  useEffect(() => {
-    onChange(value);
-  }, [value]);
+  const [value, setValue] = useState(defaultValue);
 
   return (
     <View style={styles.container}>
@@ -37,6 +43,9 @@ export function DataSelector(props: DataSelectorProps) {
         setOpen={setOpen}
         setValue={setValue}
         style={styles.dropdown}
+        onSelectItem={(items) => {
+          onChange(items.map((i) => i.value));
+        }}
         placeholder="Aucun élément sélectionné"
         mode="BADGE"
         dropDownContainerStyle={{

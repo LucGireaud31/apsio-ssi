@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { getProfil, getCards } from "../../../localApi";
 import { useLocalApi } from "../../hooks/useLoacalApi";
@@ -9,19 +9,20 @@ import { Button } from "../shared/Button";
 import { DataSelector } from "./DataSelector";
 
 interface SelectDataViewProps {
-  onNextStep(): void;
+  onNextStep(v: SharedValuesType): void;
+  defaultSharedValues: SharedValuesType;
 }
 
-export function SelectDataView(props: SelectDataViewProps) {
-  const { onNextStep } = props;
+export type SharedValuesType = {
+  profil: string[];
+  cards: string[];
+};
 
-  const [sharedValues, setSharedValues] = useState<{
-    profil: string[];
-    cards: string[];
-  }>({
-    profil: [],
-    cards: [],
-  });
+export function SelectDataView(props: SelectDataViewProps) {
+  const { onNextStep, defaultSharedValues } = props;
+
+  const [sharedValues, setSharedValues] =
+    useState<SharedValuesType>(defaultSharedValues);
 
   const { data: profil } = useLocalApi<IProfil>({
     promise: () => getProfil(),
@@ -79,6 +80,7 @@ export function SelectDataView(props: SelectDataViewProps) {
           open={openProfil}
           setOpen={setOpenProfil}
           onOpen={() => setOpenCards(false)}
+          defaultValue={sharedValues.profil}
         />
         <DataSelector
           label="Cartes"
@@ -87,12 +89,13 @@ export function SelectDataView(props: SelectDataViewProps) {
           onChange={(newValues) => {
             setSharedValues({
               ...sharedValues,
-              profil: newValues.map((nv) => nv.toLocaleString()),
+              cards: newValues.map((nv) => nv.toLocaleString()),
             });
           }}
           open={openCards}
           setOpen={setOpenCards}
           onOpen={() => setOpenProfil(false)}
+          defaultValue={sharedValues.cards}
         />
       </View>
       <Button
@@ -102,7 +105,9 @@ export function SelectDataView(props: SelectDataViewProps) {
             style={styles.rightIcon}
           />
         }
-        onPress={onNextStep}
+        onPress={() => {
+          onNextStep(sharedValues);
+        }}
         style={styles.button}
       >
         Continuer
