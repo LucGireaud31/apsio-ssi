@@ -23,6 +23,7 @@ export function SelectDataView(props: SelectDataViewProps) {
   const { data: profil } = useLocalApi<IProfil>({
     promise: () => getProfil(),
   });
+
   const { data: cards } = useLocalApi<{
     [key: string]: ICard[];
   } | null>({

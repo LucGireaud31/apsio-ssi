@@ -8,6 +8,7 @@ import { SelectSendTypeView } from "./SelectSendTypeView";
 import { SendType, SharedValuesType } from "../../types/send";
 import { GenerateQRCode } from "../GenerateQRCode";
 import { getSpecifiedCards } from "../../../localApi";
+import { Copy } from "../Copy";
 
 const DEFAULT_SHAREDVALUES = {
   cards: [],
@@ -57,7 +58,9 @@ export function Send() {
     third:
       sendType == "generate"
         ? () => GenerateQRCode({ onQuit: reset, getJSON: getJSONValue })
-        : SecondRoute,
+        : sendType == "copy"
+        ? () => Copy({ getJSON: getJSONValue, onQuit: reset })
+        : () => SecondRoute(),
   });
 
   const [routes] = useState([
