@@ -13,24 +13,29 @@ interface SelectSendTypeViewProps {
   onNextStep(v: SendType): void;
 }
 
-const BUTTONS: { label: string; value: SendType; icon: ImageSourcePropType }[] =
-  [
-    {
-      label: "Générer QR Code",
-      value: "generate",
-      icon: require("../../../assets/icons/qr-code.png"),
-    },
-    {
-      label: "Scanner QR Code",
-      value: "scan",
-      icon: require("../../../assets/icons/scan.png"),
-    },
-    {
-      label: "Copier les données",
-      value: "copy",
-      icon: require("../../../assets/icons/copy.png"),
-    },
-  ];
+const BUTTONS: {
+  label: string;
+  value: SendType;
+  icon: ImageSourcePropType;
+  withoutCaret?: boolean;
+}[] = [
+  {
+    label: "Générer QR Code",
+    value: "generate",
+    icon: require("../../../assets/icons/qr-code.png"),
+  },
+  {
+    label: "Scanner QR Code",
+    value: "scan",
+    icon: require("../../../assets/icons/scan.png"),
+  },
+  {
+    label: "Copier les données",
+    value: "copy",
+    icon: require("../../../assets/icons/copy.png"),
+    withoutCaret: true,
+  },
+];
 
 export function SelectSendTypeView(props: SelectSendTypeViewProps) {
   const { onNextStep } = props;
@@ -48,12 +53,14 @@ export function SelectSendTypeView(props: SelectSendTypeViewProps) {
           onPress={() => {
             onNextStep(button.value);
           }}
-          rightIcon={
-            <Image
-              source={require("../../../assets/icons/caret-right_white.png")}
-              style={styles.rightIcon}
-            />
-          }
+          {...(!button.withoutCaret && {
+            rightIcon: (
+              <Image
+                source={require("../../../assets/icons/caret-right_white.png")}
+                style={styles.rightIcon}
+              />
+            ),
+          })}
           style={styles.button}
           fontSize={18}
         >

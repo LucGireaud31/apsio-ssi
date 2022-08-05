@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { View } from "react-native";
+import { useState } from "react";
+import { Text } from "react-native";
 import { RoundedTop } from "../Layout/RoundedTop";
 import { DisplayStep } from "./DisplayStep";
 import { TabView, SceneMap } from "react-native-tab-view";
@@ -8,8 +8,9 @@ import { SelectSendTypeView } from "./SelectSendTypeView";
 import { SendType, SharedValuesType } from "../../types/send";
 import { GenerateQRCode } from "../GenerateQRCode";
 import { getSpecifiedCards } from "../../../localApi";
-import { Copy } from "../Copy";
+import * as Clipboard from "expo-clipboard";
 import { ScanQRCode } from "../ScanQRCode";
+import Toast from "react-native-toast-message";
 
 const DEFAULT_SHAREDVALUES = {
   cards: [],
@@ -41,32 +42,45 @@ export function Send() {
     return result;
   }
 
-  const SecondRoute = () => (
-    <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
-  );
-
   const renderScene = SceneMap({
     first: () =>
-      SelectDataView({
-        onNextStep: (sharedValues) => {
-          setStep(1);
-          setSharedValues(sharedValues);
-        },
-        defaultSharedValues: sharedValues,
-      }),
+      step == 0 ? (
+        SelectDataView({
+          onNextStep: (sharedValues) => {
+            setStep(1);
+            setSharedValues(sharedValues);
+          },
+          defaultSharedValues: sharedValues,
+        })
+      ) : (
+        <></>
+      ),
     second: () =>
-      SelectSendTypeView({
-        onNextStep: (sendType) => {
-          setSendType(sendType);
-          setStep(2);
-        },
-      }),
-    third:
-      sendType == "generate"
-        ? () => GenerateQRCode({ onQuit: reset, getJSON: getJSONValue })
-        : sendType == "copy"
-        ? () => Copy({ getJSON: getJSONValue, onQuit: reset })
-        : () => ScanQRCode({ getJSON: getJSONValue, onQuit: reset }),
+      step == 1 ? (
+        SelectSendTypeView({
+          onNextStep: (sendType) => {
+            setSendType(sendType);
+
+            if (sendType == "copy") {
+              onCopy(getJSONValue);
+              return;
+            }
+            setStep(2);
+          },
+        })
+      ) : (
+        <></>
+      ),
+    third: () =>
+      step == 2 ? (
+        sendType == "generate" ? (
+          GenerateQRCode({ onQuit: reset, getJSON: getJSONValue })
+        ) : (
+          ScanQRCode({ getJSON: getJSONValue, onQuit: reset })
+        )
+      ) : (
+        <></>
+      ),
   });
 
   const [routes] = useState([
@@ -83,7 +97,7 @@ export function Send() {
 
   return (
     <>
-      {/* <RoundedTop />
+      <RoundedTop />
       <TabView
         navigationState={{ index: step, routes }}
         renderTabBar={() => (
@@ -92,8 +106,23 @@ export function Send() {
         renderScene={renderScene}
         onIndexChange={setStep}
         swipeEnabled={false}
-      /> */}
-      <ScanQRCode getJSON={getJSONValue} onQuit={reset} />
+      />
+      {/* <ScanQRCode onQuit={reset} getJSON={getJSONValue} /> */}
     </>
   );
+}
+
+async function onCopy(
+  getJSON: () => Promise<{
+    [key: string]: any;
+  }>
+) {
+  Toast.show({
+    type: "success",
+    text1: "Copiées",
+    text2: "Vos données ont été copiées dans le presse papier",
+    visibilityTime: 4000,
+  });
+
+  Clipboard.setString(JSON.stringify(await getJSON()));
 }

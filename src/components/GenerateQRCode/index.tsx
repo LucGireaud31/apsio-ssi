@@ -5,6 +5,7 @@ import { useLocalApi } from "../../hooks/useLoacalApi";
 import { Container } from "../Layout/Container";
 import { Button } from "../shared/Button";
 import SkeletonContent from "react-native-skeleton-content";
+import { Loader } from "../shared/Loader";
 
 interface GenerateQRCodeProps {
   onQuit(): void;

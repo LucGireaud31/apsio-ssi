@@ -1,5 +1,5 @@
 import { BarCodeScanner } from "expo-barcode-scanner";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useLocalApi } from "../../hooks/useLoacalApi";
 import { theme } from "../../styles/color";
@@ -15,6 +15,7 @@ import {
 } from "@waves/ts-lib-crypto";
 import axios from "axios";
 import { sleep } from "../../utils/promise";
+import { Camera } from "./Camera";
 
 interface ScanQRCodeProps {
   getJSON(): Promise<{
@@ -25,6 +26,15 @@ interface ScanQRCodeProps {
 
 export function ScanQRCode(props: ScanQRCodeProps) {
   const { getJSON, onQuit } = props;
+
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
 
   const { data: dataToShared } = useLocalApi({
     promise: () => getJSON(),
@@ -81,17 +91,6 @@ export function ScanQRCode(props: ScanQRCodeProps) {
     }
   }
 
-  const dynamicStyle = StyleSheet.create({
-    camera: {
-      overflow: "hidden",
-      flex: 1,
-      borderRadius: 20,
-      paddingVertical: 0,
-      marginVertical: 35,
-      backgroundColor: scanned ? "red" : theme,
-    },
-  });
-
   return (
     <Container style={styles.container} label="Scanner le QR Code" fix>
       <View style={styles.warningContainer}>
@@ -103,9 +102,22 @@ export function ScanQRCode(props: ScanQRCodeProps) {
           sélectionnées <Bold>seront envoyées</Bold>
         </Text>
       </View>
-      <View style={dynamicStyle.camera}>
-        <BarCodeScanner onBarCodeScanned={handleSendData} style={{ flex: 1 }} />
-      </View>
+      {hasPermission ? (
+        <Camera
+          handleSendData={handleSendData}
+          style={{
+            overflow: "hidden",
+            flex: 1,
+            borderRadius: 20,
+            marginVertical: 35,
+            backgroundColor: scanned ? "red" : theme,
+          }}
+        />
+      ) : (
+        <Text style={styles.requestedText}>
+          Il faut autoriser l'accès à la caméra
+        </Text>
+      )}
       <Button style={styles.button} onPress={onQuit}>
         Quitter
       </Button>
@@ -147,5 +159,11 @@ const styles = StyleSheet.create({
     color: "red",
     textAlign: "center",
     fontSize: 18,
+  },
+  requestedText: {
+    color: theme,
+    flex: 1,
+    textAlign: "center",
+    textAlignVertical: "center",
   },
 });
