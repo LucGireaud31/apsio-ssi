@@ -1,7 +1,7 @@
-import { View, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { useLocalApi } from "../../hooks/useLoacalApi";
 import { Container } from "../Layout/Container";
-import * as Clipboard from "expo-clipboard";
+import Clipboard from "expo-clipboard";
 import { useEffect, useState } from "react";
 import { theme } from "../../styles/color";
 import { Button } from "../shared/Button";

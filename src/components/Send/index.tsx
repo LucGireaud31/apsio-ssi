@@ -9,6 +9,7 @@ import { SendType, SharedValuesType } from "../../types/send";
 import { GenerateQRCode } from "../GenerateQRCode";
 import { getSpecifiedCards } from "../../../localApi";
 import { Copy } from "../Copy";
+import { ScanQRCode } from "../ScanQRCode";
 
 const DEFAULT_SHAREDVALUES = {
   cards: [],
@@ -25,13 +26,18 @@ export function Send() {
   async function getJSONValue() {
     const result: { [key: string]: any } = {};
 
+    // Profil
     Object.entries(sharedValues.profil).forEach((entry) => {
       result[entry[1].value] = entry[1].label;
     });
 
-    result["cards"] = await getSpecifiedCards(
+    // Cards
+    const cards = await getSpecifiedCards(
       sharedValues.cards.map((c) => c.value)
     );
+    if (cards && cards.length > 0) {
+      result["cards"] = cards;
+    }
     return result;
   }
 
@@ -60,7 +66,7 @@ export function Send() {
         ? () => GenerateQRCode({ onQuit: reset, getJSON: getJSONValue })
         : sendType == "copy"
         ? () => Copy({ getJSON: getJSONValue, onQuit: reset })
-        : () => SecondRoute(),
+        : () => ScanQRCode({ getJSON: getJSONValue, onQuit: reset }),
   });
 
   const [routes] = useState([
@@ -77,7 +83,7 @@ export function Send() {
 
   return (
     <>
-      <RoundedTop />
+      {/* <RoundedTop />
       <TabView
         navigationState={{ index: step, routes }}
         renderTabBar={() => (
@@ -86,7 +92,8 @@ export function Send() {
         renderScene={renderScene}
         onIndexChange={setStep}
         swipeEnabled={false}
-      />
+      /> */}
+      <ScanQRCode getJSON={getJSONValue} onQuit={reset} />
     </>
   );
 }
