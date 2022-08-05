@@ -1,16 +1,22 @@
 import { ReactNode } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import QRCode from "react-qr-code";
+import { useLocalApi } from "../../hooks/useLoacalApi";
 import { Container } from "../Layout/Container";
 import { Button } from "../shared/Button";
+import SkeletonContent from "react-native-skeleton-content";
 
 interface GenerateQRCodeProps {
   onQuit(): void;
-  data: string;
+  getJSON(): Promise<{
+    [key: string]: any;
+  }>;
 }
 
 export function GenerateQRCode(props: GenerateQRCodeProps) {
-  const { onQuit, data } = props;
+  const { onQuit, getJSON } = props;
+
+  const { data, isLoading } = useLocalApi({ promise: () => getJSON() });
 
   return (
     <Container style={styles.container} label="Faire scanner ce QR Code" fix>
@@ -23,9 +29,13 @@ export function GenerateQRCode(props: GenerateQRCodeProps) {
           <Bold> VOS DONNÉES</Bold> sélectionnées précédemment
         </Text>
       </View>
-      <View style={styles.qrCodeContainer}>
-        <QRCode value={data} size={250} />
-      </View>
+      <SkeletonContent
+        containerStyle={styles.qrCodeContainer}
+        isLoading={isLoading}
+        layout={[styles.skeletonContainer]}
+      >
+        <QRCode value={JSON.stringify(data)} size={250} />
+      </SkeletonContent>
       <Button style={styles.button} onPress={onQuit}>
         Quitter
       </Button>
@@ -59,6 +69,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  skeletonContainer: {
+    width: 250,
+    height: 250,
   },
   button: {
     width: 180,

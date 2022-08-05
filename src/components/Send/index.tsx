@@ -21,14 +21,18 @@ export function Send() {
     useState<SharedValuesType>(DEFAULT_SHAREDVALUES);
   const [sendType, setSendType] = useState<SendType | undefined>();
 
-  const valuesJSON = useMemo(() => {
-    (async () => {
-      const sharedCards = await getSpecifiedCards(
-        sharedValues.cards.map((c) => c.value)
-      );
-      console.log("sharedCards :", JSON.stringify(sharedCards));
-    })();
-  }, [sharedValues]);
+  async function getJSONValue() {
+    const result: { [key: string]: any } = {};
+
+    Object.entries(sharedValues.profil).forEach((entry) => {
+      result[entry[1].value] = entry[1].label;
+    });
+
+    result["cards"] = await getSpecifiedCards(
+      sharedValues.cards.map((c) => c.value)
+    );
+    return result;
+  }
 
   const SecondRoute = () => (
     <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
@@ -52,7 +56,7 @@ export function Send() {
       }),
     third:
       sendType == "generate"
-        ? () => GenerateQRCode({ onQuit: reset, data: "" })
+        ? () => GenerateQRCode({ onQuit: reset, getJSON: getJSONValue })
         : SecondRoute,
   });
 
@@ -80,7 +84,6 @@ export function Send() {
         onIndexChange={setStep}
         swipeEnabled={false}
       />
-      {/* <GenerateQRCode /> */}
     </>
   );
 }
