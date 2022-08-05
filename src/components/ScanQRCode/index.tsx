@@ -31,10 +31,14 @@ export function ScanQRCode(props: ScanQRCodeProps) {
 
   useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
+      getPermission();
     })();
   }, []);
+
+  async function getPermission() {
+    const { status } = await BarCodeScanner.requestPermissionsAsync();
+    setHasPermission(status === "granted");
+  }
 
   const { data: dataToShared } = useLocalApi({
     promise: () => getJSON(),
@@ -114,8 +118,8 @@ export function ScanQRCode(props: ScanQRCodeProps) {
           }}
         />
       ) : (
-        <Text style={styles.requestedText}>
-          Il faut autoriser l'accès à la caméra
+        <Text style={styles.requestedText} onPress={() => getPermission()}>
+          Autoriser la caméra
         </Text>
       )}
       <Button style={styles.button} onPress={onQuit}>
