@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { addCard, getCards, removeCard, setCard } from "../../../localApi";
+import { theme } from "../../styles/color";
 import { ICard } from "../../types/card";
 import { Button } from "../shared/Button";
 import { Card } from "./Card";
@@ -27,6 +28,9 @@ export function CardSelector(props: CardSelectorProps) {
   return (
     <View style={styles.container}>
       <ScrollView ref={ref} horizontal showsHorizontalScrollIndicator={false}>
+        {cards.length == 0 && (
+          <Text style={styles.noDataText}>Aucune carte</Text>
+        )}
         {cards.map((card, i) => (
           <View key={i} style={styles.cardContainer}>
             <Card
@@ -76,5 +80,12 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 40,
     width: 200,
+  },
+  noDataText: {
+    textAlign: "center",
+    textAlignVertical: "center",
+    fontSize: 18,
+    color: theme,
+    fontWeight: "bold",
   },
 });
