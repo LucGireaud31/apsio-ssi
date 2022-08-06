@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { addCard, getCards, removeCard, setCard } from "../../../localApi";
 import { theme } from "../../styles/color";
 import { ICard } from "../../types/card";
+import { sleep } from "../../utils/promise";
 import { Button } from "../shared/Button";
 import { Card } from "./Card";
 
@@ -18,7 +19,6 @@ export function CardSelector(props: CardSelectorProps) {
   useEffect(() => {
     (async () => {
       const newCards = (await getCards())?.[menu] ?? [];
-
       setCards(newCards);
     })();
   }, [menu]);
@@ -35,7 +35,6 @@ export function CardSelector(props: CardSelectorProps) {
           <View key={i} style={styles.cardContainer}>
             <Card
               card={card}
-              index={i}
               onDelete={() => {
                 const newCards = cards.filter((_, j) => i != j);
                 setCards(newCards);
@@ -43,8 +42,7 @@ export function CardSelector(props: CardSelectorProps) {
                 ref.current?.scrollToEnd({ animated: true });
               }}
               onChange={async (name, number, cvv) => {
-                const newCards = await setCard(i, menu, { name, number, cvv });
-                setCards(newCards ? newCards[menu] : []);
+                setCard(i, menu, { name, number, cvv });
               }}
             />
           </View>

@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { ICard } from "../../types/card";
-import MaskInput from "react-native-mask-input";
 import { ImageButton } from "../Layout/ImageButton";
+import { TextInputMask } from "react-native-masked-text";
 
 interface CardProps {
   card: ICard;
-  index: number;
   onDelete(): void;
   onChange(name: string, number: string, cvv: string): void;
 }
 
 export function Card(props: CardProps) {
-  const { card, index, onDelete, onChange } = props;
+  const { card, onDelete, onChange } = props;
 
   const [name, setName] = useState(card.name);
   const [cvv, setCvv] = useState(card.cvv);
@@ -43,35 +42,15 @@ export function Card(props: CardProps) {
         placeholderTextColor="#a7a7a7"
       />
       <View style={styles.numberContainer}>
-        <MaskInput
+        <TextInputMask
+          type="credit-card"
           style={styles.number}
-          value={"" + number}
+          value={number}
           onChangeText={(newText) => setNumber(newText)}
           placeholder="Numéro..."
           placeholderTextColor="#a7a7a7"
-          maxLength={19}
           keyboardType="numeric"
-          mask={[
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            " ",
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            " ",
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            " ",
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-          ]}
+          maxLength={19}
         />
         <TextInput
           style={styles.cvv}
