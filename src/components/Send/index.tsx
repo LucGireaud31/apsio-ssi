@@ -107,10 +107,6 @@ export function Send() {
         onIndexChange={setStep}
         swipeEnabled={false}
       />
-      {/* <SelectDataView
-        defaultSharedValues={{ cards: [], profil: [] }}
-        onNextStep={() => {}}
-      /> */}
     </>
   );
 }

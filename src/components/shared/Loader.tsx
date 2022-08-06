@@ -11,7 +11,8 @@ export function Loader(props: LoaderProps) {
   const styles = StyleSheet.create({
     container: {
       width: "100%",
-      flex: 1,
+      height: "100%",
+      padding: 30,
       marginVertical: 35,
       borderRadius: 20,
       backgroundColor: "#F0F0F0",

@@ -1,28 +1,57 @@
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
-import SkeletonContent from "react-native-skeleton-content";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { Loader } from "../shared/Loader";
 
 interface CameraProps {
   handleSendData(d: any): void;
-  style: any;
 }
 
 export function Camera(props: CameraProps) {
-  const { handleSendData, style } = props;
+  const { handleSendData } = props;
 
   const [isLoading, setIsLoading] = useState(true);
 
   setTimeout(() => setIsLoading(false), 200);
 
-  if (isLoading) {
-    return <Loader label="Connexion à l'appreil photo..." />;
-  }
-
   return (
-    <View style={style}>
-      <BarCodeScanner onBarCodeScanned={handleSendData} style={{ flex: 1 }} />
-    </View>
+    <>
+      <View style={styles.container}>
+        {isLoading ? (
+          <Loader
+            label="Connexion à l'appreil photo..."
+            style={{ height: 250 }}
+          />
+        ) : (
+          <View style={styles.cameraContainer}>
+            <BarCodeScanner
+              onBarCodeScanned={handleSendData}
+              style={styles.camera}
+            />
+          </View>
+        )}
+      </View>
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    overflow: "hidden",
+    marginLeft: "auto",
+    marginRight: "auto",
+    justifyContent: "center",
+    flex: 1,
+  },
+  cameraContainer: {
+    height: 250,
+    width: 250,
+    overflow: "hidden",
+    borderRadius: 20,
+  },
+  camera: {
+    width: "100%",
+    height:
+      (Dimensions.get("screen").height / Dimensions.get("screen").width) * 200,
+  },
+});

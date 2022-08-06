@@ -1,6 +1,6 @@
 import { BarCodeScanner } from "expo-barcode-scanner";
-import React, { ReactNode, useEffect, useMemo, useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { View, StyleSheet, Text, Dimensions, ViewStyle } from "react-native";
 import { useLocalApi } from "../../hooks/useLoacalApi";
 import { theme } from "../../styles/color";
 import { Container } from "../Layout/Container";
@@ -28,6 +28,7 @@ export function ScanQRCode(props: ScanQRCodeProps) {
   const { getJSON, onQuit } = props;
 
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [scanned, setScanned] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -43,8 +44,6 @@ export function ScanQRCode(props: ScanQRCodeProps) {
   const { data: dataToShared } = useLocalApi({
     promise: () => getJSON(),
   });
-
-  const [scanned, setScanned] = useState(false);
 
   async function handleSendData({ data }: any) {
     setScanned(true);
@@ -107,16 +106,7 @@ export function ScanQRCode(props: ScanQRCodeProps) {
         </Text>
       </View>
       {hasPermission ? (
-        <Camera
-          handleSendData={handleSendData}
-          style={{
-            overflow: "hidden",
-            flex: 1,
-            borderRadius: 20,
-            marginVertical: 35,
-            backgroundColor: scanned ? "red" : theme,
-          }}
-        />
+        <Camera handleSendData={handleSendData} />
       ) : (
         <Text style={styles.requestedText} onPress={() => getPermission()}>
           Autoriser la caméra
