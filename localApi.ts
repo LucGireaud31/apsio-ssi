@@ -38,8 +38,7 @@ export async function setProfil(accessor: string, newValue: string) {
 /////// Cards ////////
 //////////////////////
 
-export async function getCards(specified?:string[]): Promise<{ [key: string]: ICard[] } | null> {
-
+export async function getCards(): Promise<{ [key: string]: ICard[] } | null> {
     const cards = await AsyncStorage.getItem("cards");
 
     try {

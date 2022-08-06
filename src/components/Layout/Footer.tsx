@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { View, StyleSheet, Keyboard } from "react-native";
 import { theme } from "../../styles/color";
 import { ImageButton } from "./ImageButton";
+import { atom, useSetAtom } from "jotai";
 
 const LINKS = [
   {
@@ -29,8 +30,12 @@ const LINKS = [
   },
 ];
 
+export const atomIsDataInvalidate = atom(true);
+
 export function Footer({ navigation }: BottomTabBarProps) {
   const [visible, setVisible] = useState(true);
+
+  const setIsDataInvalidate = useSetAtom(atomIsDataInvalidate);
 
   useEffect(() => {
     const onShow = Keyboard.addListener("keyboardDidShow", () =>
@@ -62,7 +67,11 @@ export function Footer({ navigation }: BottomTabBarProps) {
         >
           <ImageButton
             source={link.source}
-            onPress={() => navigation.navigate(link.name)}
+            onPress={() => {
+              if (link.name == "Send" && navigation.getState().index != 0)
+                setIsDataInvalidate(true);
+              navigation.navigate(link.name);
+            }}
             disable={link.disable}
           />
         </View>

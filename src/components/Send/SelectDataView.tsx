@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { Send } from ".";
 import { getProfil, getCards } from "../../../localApi";
@@ -8,8 +8,10 @@ import { ICard } from "../../types/card";
 import { IProfil } from "../../types/profil";
 import { SharedValuesType } from "../../types/send";
 import { Container } from "../Layout/Container";
+import { atomIsDataInvalidate } from "../Layout/Footer";
 import { Button } from "../shared/Button";
 import { DataSelector } from "./DataSelector";
+import { useAtom } from "jotai";
 
 interface SelectDataViewProps {
   onNextStep(v: SharedValuesType): void;
@@ -22,15 +24,35 @@ export function SelectDataView(props: SelectDataViewProps) {
   const [sharedValues, setSharedValues] =
     useState<SharedValuesType>(defaultSharedValues);
 
-  const { data: profil, isLoading: isLoadingProfil } = useLocalApi<IProfil>({
+  const {
+    data: profil,
+    isLoading: isLoadingProfil,
+    refetch: refetchProfil,
+  } = useLocalApi<IProfil>({
     promise: () => getProfil(),
+    disableFirstFetch: true,
   });
 
-  const { data: cards, isLoading: isLoadingCards } = useLocalApi<{
+  const {
+    data: cards,
+    isLoading: isLoadingCards,
+    refetch: refetchCards,
+  } = useLocalApi<{
     [key: string]: ICard[];
   } | null>({
     promise: () => getCards(),
+    disableFirstFetch: true,
   });
+
+  const [isDataInvalidate, setIsDataInvalidate] = useAtom(atomIsDataInvalidate);
+
+  useEffect(() => {
+    if (isDataInvalidate) {
+      refetchProfil();
+      refetchCards();
+      setIsDataInvalidate(false);
+    }
+  }, [isDataInvalidate]);
 
   const [openProfil, setOpenProfil] = useState(false);
   const [openCards, setOpenCards] = useState(false);

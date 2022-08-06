@@ -1,22 +1,30 @@
 import { useEffect, useState } from "react";
 
 interface useLocalApiProps {
-    promise():Promise<any>
-};
+  promise(): Promise<any>;
+  disableFirstFetch?: boolean;
+}
 
 export function useLocalApi<T>(props: useLocalApiProps) {
-    const {promise } = props;
+  const { promise, disableFirstFetch } = props;
 
-    const [data, setData] = useState<T | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+  async function refetch() {
+    setIsLoading(true);
+    setData(await promise());
+    setIsLoading(false);
+  }
 
-    useEffect(() => {
-        (async () => {
-            setData(await promise())
-            setIsLoading(false)
-        }
-        )()
-    }, [])
+  const [data, setData] = useState<T | null>(null);
+  const [isLoading, setIsLoading] = useState(disableFirstFetch ? false : true);
 
-    return { data, isLoading }
+  useEffect(() => {
+    if (!disableFirstFetch) {
+      (async () => {
+        setData(await promise());
+        setIsLoading(false);
+      })();
+    }
+  }, []);
+
+  return { data, isLoading, refetch };
 }
