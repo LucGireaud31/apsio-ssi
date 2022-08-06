@@ -107,7 +107,10 @@ export function Send() {
         onIndexChange={setStep}
         swipeEnabled={false}
       />
-      {/* <ScanQRCode onQuit={reset} getJSON={getJSONValue} /> */}
+      {/* <SelectDataView
+        defaultSharedValues={{ cards: [], profil: [] }}
+        onNextStep={() => {}}
+      /> */}
     </>
   );
 }

@@ -1,7 +1,9 @@
 import { useState, useMemo } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
+import { Send } from ".";
 import { getProfil, getCards } from "../../../localApi";
 import { useLocalApi } from "../../hooks/useLoacalApi";
+import { theme } from "../../styles/color";
 import { ICard } from "../../types/card";
 import { IProfil } from "../../types/profil";
 import { SharedValuesType } from "../../types/send";
@@ -20,11 +22,11 @@ export function SelectDataView(props: SelectDataViewProps) {
   const [sharedValues, setSharedValues] =
     useState<SharedValuesType>(defaultSharedValues);
 
-  const { data: profil } = useLocalApi<IProfil>({
+  const { data: profil, isLoading: isLoadingProfil } = useLocalApi<IProfil>({
     promise: () => getProfil(),
   });
 
-  const { data: cards } = useLocalApi<{
+  const { data: cards, isLoading: isLoadingCards } = useLocalApi<{
     [key: string]: ICard[];
   } | null>({
     promise: () => getCards(),
@@ -55,7 +57,14 @@ export function SelectDataView(props: SelectDataViewProps) {
     return result;
   }, [cards]);
 
-  if (!profil || !cards) return <></>;
+  const hasData = useMemo(
+    () =>
+      isLoadingCards ||
+      isLoadingProfil ||
+      profil ||
+      (cardsItems && cardsItems.length != 0),
+    [profil, cardsItems, isLoadingCards, isLoadingProfil]
+  );
 
   return (
     <Container
@@ -63,55 +72,64 @@ export function SelectDataView(props: SelectDataViewProps) {
       label="Sélectionner les informations à envoyer"
       fix
     >
-      <View style={styles.dropDownContainer}>
-        <DataSelector
-          label="Profil"
-          source={require("../../../assets/icons/user_theme.png")}
-          items={Object.entries(profil).map((entry) => ({
-            label: entry[1],
-            value: entry[0],
-          }))}
-          onChange={(newValues) => {
-            setSharedValues({
-              ...sharedValues,
-              profil: newValues,
-            });
-          }}
-          open={openProfil}
-          setOpen={setOpenProfil}
-          onOpen={() => setOpenCards(false)}
-          defaultValue={sharedValues.profil}
-        />
-        <DataSelector
-          label="Cartes"
-          source={require("../../../assets/icons/cardholder_theme.png")}
-          items={cardsItems}
-          onChange={(newValues) => {
-            setSharedValues({
-              ...sharedValues,
-              cards: newValues,
-            });
-          }}
-          open={openCards}
-          setOpen={setOpenCards}
-          onOpen={() => setOpenProfil(false)}
-          defaultValue={sharedValues.cards}
-        />
-      </View>
-      <Button
-        rightIcon={
-          <Image
-            source={require("../../../assets/icons/caret-right_white.png")}
-            style={styles.rightIcon}
-          />
-        }
-        onPress={() => {
-          onNextStep(sharedValues);
-        }}
-        style={styles.button}
-      >
-        Continuer
-      </Button>
+      {!hasData && <Text style={styles.text}>Aucune données enregistrées</Text>}
+      {hasData && (
+        <>
+          <View style={styles.dropDownContainer}>
+            {profil && (
+              <DataSelector
+                label="Profil"
+                source={require("../../../assets/icons/user_theme.png")}
+                items={Object.entries(profil).map((entry) => ({
+                  label: entry[1],
+                  value: entry[0],
+                }))}
+                onChange={(newValues) => {
+                  setSharedValues({
+                    ...sharedValues,
+                    profil: newValues,
+                  });
+                }}
+                open={openProfil}
+                setOpen={setOpenProfil}
+                onOpen={() => setOpenCards(false)}
+                defaultValue={sharedValues.profil}
+              />
+            )}
+            {cardsItems && cardsItems.length > 0 && (
+              <DataSelector
+                label="Cartes"
+                source={require("../../../assets/icons/cardholder_theme.png")}
+                items={cardsItems}
+                onChange={(newValues) => {
+                  setSharedValues({
+                    ...sharedValues,
+                    cards: newValues,
+                  });
+                }}
+                open={openCards}
+                setOpen={setOpenCards}
+                onOpen={() => setOpenProfil(false)}
+                defaultValue={sharedValues.cards}
+              />
+            )}
+          </View>
+          <Button
+            rightIcon={
+              <Image
+                source={require("../../../assets/icons/caret-right_white.png")}
+                style={styles.rightIcon}
+              />
+            }
+            onPress={() => {
+              onNextStep(sharedValues);
+            }}
+            style={styles.button}
+          >
+            Continuer
+          </Button>
+        </>
+      )}
     </Container>
   );
 }
@@ -131,5 +149,12 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: "100%",
+  },
+  text: {
+    textAlign: "center",
+    color: theme,
+    fontSize: 18,
+    marginTop: 50,
+    fontWeight: "700",
   },
 });
