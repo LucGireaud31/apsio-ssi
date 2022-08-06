@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { RoundedTop } from "../Layout/RoundedTop";
 import { DisplayStep } from "./DisplayStep";
@@ -11,6 +11,8 @@ import { getSpecifiedCards } from "../../../localApi";
 import * as Clipboard from "expo-clipboard";
 import { ScanQRCode } from "../ScanQRCode";
 import Toast from "react-native-toast-message";
+import { useSetAtom } from "jotai";
+import { atomIsDataInvalidate } from "../Layout/Footer";
 
 const DEFAULT_SHAREDVALUES = {
   cards: [],
@@ -23,6 +25,14 @@ export function Send() {
   const [sharedValues, setSharedValues] =
     useState<SharedValuesType>(DEFAULT_SHAREDVALUES);
   const [sendType, setSendType] = useState<SendType | undefined>();
+
+  const setIsDataInvalidate = useSetAtom(atomIsDataInvalidate);
+
+  useEffect(() => {
+    if (step != 0) {
+      setIsDataInvalidate(true);
+    }
+  }, [step]);
 
   async function getJSONValue() {
     const result: { [key: string]: any } = {};

@@ -7,7 +7,7 @@ import { IProfil } from "./src/types/profil";
 //////////////////////
 
 export async function getProfil(): Promise<IProfil | null> {
-
+console.log("oui")
     const profil = await AsyncStorage.getItem("profil");
 
     try {
