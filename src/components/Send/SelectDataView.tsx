@@ -12,6 +12,7 @@ import { atomIsDataInvalidate } from "../Layout/Footer";
 import { Button } from "../shared/Button";
 import { DataSelector } from "./DataSelector";
 import { useAtom } from "jotai";
+import { french } from "../../utils/translate";
 
 interface SelectDataViewProps {
   onNextStep(v: SharedValuesType): void;
@@ -103,7 +104,7 @@ export function SelectDataView(props: SelectDataViewProps) {
                 label="Profil"
                 source={require("../../../assets/icons/user_theme.png")}
                 items={Object.entries(profil).map((entry) => ({
-                  label: entry[1],
+                  label: `${french[entry[0]]} : ${entry[1]}`,
                   value: entry[0],
                 }))}
                 onChange={(newValues) => {

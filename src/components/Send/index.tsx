@@ -58,6 +58,15 @@ export function Send() {
         SelectDataView({
           onNextStep: (sharedValues) => {
             setStep(1);
+
+            sharedValues.profil = sharedValues.profil.map((p) => ({
+              ...p,
+              label: p.label
+                ?.split(":")
+                .filter((_, i) => i != 0)
+                .join(":"),
+            }));
+
             setSharedValues(sharedValues);
           },
           defaultSharedValues: sharedValues,
