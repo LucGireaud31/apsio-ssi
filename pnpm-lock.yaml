@@ -15,14 +15,18 @@ specifiers:
   expo-barcode-scanner: ~11.2.0
   expo-cli: ^5.5.1
   expo-clipboard: ~2.1.0
+  expo-document-picker: ~10.1.3
+  expo-file-system: ~13.1.4
   expo-status-bar: ~1.2.0
   expo-updates: ~0.11.6
+  jotai: ^1.7.7
   react: 17.0.1
   react-dom: 17.0.1
   react-native: ^0.64.3
   react-native-camera: ^4.2.1
+  react-native-document-picker: ^8.1.1
   react-native-dropdown-picker: ^5.4.2
-  react-native-mask-input: ^1.2.0
+  react-native-masked-text: ^1.13.0
   react-native-pager-view: 5.4.9
   react-native-permissions: ^3.3.1
   react-native-qrcode-scanner: ^1.5.5
@@ -32,6 +36,7 @@ specifiers:
   react-native-skeleton-content: ^1.0.24
   react-native-svg: 12.1.1
   react-native-tab-view: ^3.1.1
+  react-native-toast-message: ^2.1.5
   react-native-web: 0.17.1
   react-qr-code: ^2.0.7
   typescript: ~4.3.5
@@ -48,14 +53,18 @@ dependencies:
   expo-barcode-scanner: 11.2.1_expo@44.0.6
   expo-cli: 5.5.1_typescript@4.3.5
   expo-clipboard: 2.1.1_expo@44.0.6
+  expo-document-picker: 10.1.3_expo@44.0.6
+  expo-file-system: 13.1.4_expo@44.0.6
   expo-status-bar: 1.2.0
   expo-updates: 0.11.7_expo@44.0.6
+  jotai: 1.8.0_r2okaekcyb5plv7yaicmkcxabq
   react: 17.0.1
   react-dom: 17.0.1_react@17.0.1
   react-native: 0.64.3_react@17.0.1
   react-native-camera: 4.2.1
+  react-native-document-picker: 8.1.1_sbjh7r6wrxe2pvsvaqturwwxna
   react-native-dropdown-picker: 5.4.2_sbjh7r6wrxe2pvsvaqturwwxna
-  react-native-mask-input: 1.2.0_sbjh7r6wrxe2pvsvaqturwwxna
+  react-native-masked-text: 1.13.0
   react-native-pager-view: 5.4.9_sbjh7r6wrxe2pvsvaqturwwxna
   react-native-permissions: 3.3.1_sbjh7r6wrxe2pvsvaqturwwxna
   react-native-qrcode-scanner: 1.5.5_4aeclzrz4avcgseswu3htjm7yq
@@ -65,6 +74,7 @@ dependencies:
   react-native-skeleton-content: 1.0.24_rtj3gtqqmdqd2qzt2mwqjvaiyu
   react-native-svg: 12.1.1_sbjh7r6wrxe2pvsvaqturwwxna
   react-native-tab-view: 3.1.1_fpqe4ga5claycjqtqtwgovm6wi
+  react-native-toast-message: 2.1.5_sbjh7r6wrxe2pvsvaqturwwxna
   react-native-web: 0.17.1_w7o5yyljkiidx2s2nzb26ottzu
   react-qr-code: 2.0.7_ottujld5u3rx3ebr2rflvsirm4
 
@@ -4454,6 +4464,10 @@ packages:
     resolution: {integrity: sha512-+LSAiGFwQ9dRnRdOeaj7g47ZFJcOUPukAP8J3A3fuZ1g9Y44BG+P1sgApjLXTQPOzC4+7S9Wr8kXsfpINM4jpw==}
     dev: false
 
+  /date-and-time/0.9.0:
+    resolution: {integrity: sha512-4JybB6PbR+EebpFx/KyR5Ybl+TcdXMLIJkyYsCx3P4M4CWGMuDyFF19yh6TyasMAIF5lrsgIxiSHBXh2FFc7Fg==}
+    dev: false
+
   /dateformat/3.0.3:
     resolution: {integrity: sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==}
     dev: false
@@ -5267,6 +5281,18 @@ packages:
       expo: '*'
     dependencies:
       '@expo/config': 6.0.26
+      expo: 44.0.6_@babel+core@7.18.6
+      uuid: 3.4.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /expo-document-picker/10.1.3_expo@44.0.6:
+    resolution: {integrity: sha512-JKARJBnQ5Aug92hg2MFKrM2LqiMQabcUBYJwBhwSuc0A7dNUeprw0hkaOK0D9Fk7Ae9t+flRX0N5R/aADek3HA==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      '@expo/config-plugins': 4.1.5
       expo: 44.0.6_@babel+core@7.18.6
       uuid: 3.4.0
     transitivePeerDependencies:
@@ -7210,6 +7236,44 @@ packages:
 
   /join-component/1.1.0:
     resolution: {integrity: sha512-bF7vcQxbODoGK1imE2P9GS9aw4zD0Sd+Hni68IMZLj7zRnquH7dXUmMw9hDI5S/Jzt7q+IyTXN0rSg2GI0IKhQ==}
+    dev: false
+
+  /jotai/1.8.0_r2okaekcyb5plv7yaicmkcxabq:
+    resolution: {integrity: sha512-B77a5hIDGCxePYrYBpHP6YePGyNwivA+vXO6QME+8+t3V0y+OHwwnHu4Wy/LWEChE/G8vI+K7P2tlToT8Zmjng==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@babel/core': '*'
+      '@babel/template': '*'
+      '@tanstack/query-core': '*'
+      '@urql/core': '*'
+      immer: '*'
+      optics-ts: '*'
+      react: '>=16.8'
+      valtio: '*'
+      wonka: '*'
+      xstate: '*'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/template':
+        optional: true
+      '@tanstack/query-core':
+        optional: true
+      '@urql/core':
+        optional: true
+      immer:
+        optional: true
+      optics-ts:
+        optional: true
+      valtio:
+        optional: true
+      wonka:
+        optional: true
+      xstate:
+        optional: true
+    dependencies:
+      '@babel/core': 7.18.6
+      react: 17.0.1
     dev: false
 
   /js-sha3/0.8.0:
@@ -9829,6 +9893,21 @@ packages:
       - supports-color
     dev: false
 
+  /react-native-document-picker/8.1.1_sbjh7r6wrxe2pvsvaqturwwxna:
+    resolution: {integrity: sha512-mH0oghd7ndgU9/1meVJdqts1sAkOfUQW1qbrqTTsvR5f2K9r0BAj/X02dve5IBMOMZvlGd7qWrNVuIFg5AUXWg==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+      react-native-windows: '*'
+    peerDependenciesMeta:
+      react-native-windows:
+        optional: true
+    dependencies:
+      invariant: 2.2.4
+      react: 17.0.1
+      react-native: 0.64.3_react@17.0.1
+    dev: false
+
   /react-native-dropdown-picker/5.4.2_sbjh7r6wrxe2pvsvaqturwwxna:
     resolution: {integrity: sha512-cZBPyN+k52jA9XguFnKoF5tLf31z6gjZ8GijO/pfVNSSEtPwZ14UTUrr87JiiOnMh5K/O2kRzZ/jZN8D0MmUMA==}
     peerDependencies:
@@ -9839,14 +9918,11 @@ packages:
       react-native: 0.64.3_react@17.0.1
     dev: false
 
-  /react-native-mask-input/1.2.0_sbjh7r6wrxe2pvsvaqturwwxna:
-    resolution: {integrity: sha512-0bLJ9Szlly4tt59RrbLBS5TSJAGVoH22Hpka85HQ3q4qy10AH+UkcDkozXEonSY5oJK6sobnmzKQ4px5+mkCWg==}
-    peerDependencies:
-      react: '*'
-      react-native: '*'
+  /react-native-masked-text/1.13.0:
+    resolution: {integrity: sha512-iMku5Ky6DP4fTRosjsYNJOhH8yoBQCzRALBdv1wVDKmCBQhhVE8RHr5EW4SNUjkYTZL473sDdEKl4NI948q9FQ==}
     dependencies:
-      react: 17.0.1
-      react-native: 0.64.3_react@17.0.1
+      date-and-time: 0.9.0
+      tinymask: 1.0.2
     dev: false
 
   /react-native-pager-view/5.4.9_sbjh7r6wrxe2pvsvaqturwwxna:
@@ -9993,6 +10069,16 @@ packages:
       react: 17.0.1
       react-native: 0.64.3_react@17.0.1
       react-native-pager-view: 5.4.9_sbjh7r6wrxe2pvsvaqturwwxna
+    dev: false
+
+  /react-native-toast-message/2.1.5_sbjh7r6wrxe2pvsvaqturwwxna:
+    resolution: {integrity: sha512-mk3rELtBEhrhWBCN6CTaw0gypgL9ZNauX3xx1LUs4uee9vc0pVsghrKxO57vroUCcNL2hDeZSLJWdQNMCkGeaQ==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      react: 17.0.1
+      react-native: 0.64.3_react@17.0.1
     dev: false
 
   /react-native-web/0.17.1_w7o5yyljkiidx2s2nzb26ottzu:
@@ -11511,6 +11597,10 @@ packages:
 
   /timsort/0.3.0:
     resolution: {integrity: sha512-qsdtZH+vMoCARQtyod4imc2nIJwg9Cc7lPRrw9CzF8ZKR0khdr8+2nX80PBhET3tcyTtJDxAffGh2rXH4tyU8A==}
+    dev: false
+
+  /tinymask/1.0.2:
+    resolution: {integrity: sha512-2FjNINAMq0s3e94ns2PuElOQZOt9QVgnrv0JZ8yNblwecyQDhVsSre6Rs+WJj/IHEcgdfYbDMP7zvECTfV/Xnw==}
     dev: false
 
   /tmp/0.0.33:

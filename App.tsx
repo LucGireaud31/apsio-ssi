@@ -9,9 +9,16 @@ import { Footer } from "./src/components/Layout/Footer";
 import { Profil } from "./src/components/Profil";
 import { Send } from "./src/components/Send";
 import Toast from "react-native-toast-message";
+import { useLocalApi } from "./src/hooks/useLoacalApi";
+import { getProfil } from "./localApi";
+import { IProfil } from "./src/types/profil";
 
 export default function App() {
   const Stack = createBottomTabNavigator();
+
+  const { data: profil, isLoading } = useLocalApi<IProfil>({
+    promise: () => getProfil(),
+  });
 
   return (
     <>
@@ -68,7 +75,7 @@ export default function App() {
             name="Profil"
             component={Profil}
             options={{
-              title: "Luc Gireaud",
+              title: "Mon profil",
               headerStyle: { backgroundColor: theme },
               headerTintColor: "white",
               headerTitleAlign: "center",

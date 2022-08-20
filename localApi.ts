@@ -109,3 +109,16 @@ export async function removeCard(index: number, menu: number) {
     AsyncStorage.setItem("cards", cards ? JSON.stringify(cards) : "");
 
 }
+
+
+//////////////////////
+/// Profil picture ///
+//////////////////////
+
+export async function getProfilPicture() {
+    return AsyncStorage.getItem("profilPicture")
+}
+
+export async function setProfilPicture(url:string) {
+    return AsyncStorage.setItem("profilPicture",url)
+}
