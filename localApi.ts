@@ -1,6 +1,27 @@
 import { ICard } from './src/types/card';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IProfil } from "./src/types/profil";
+import { sha256 } from 'js-sha256';
+
+
+//////////////////////
+////// Password //////
+//////////////////////
+
+export async function getPasswordHash() {
+    return AsyncStorage.getItem("passwordHash")
+}
+
+export async function submitPassword(password: string) {
+    const realHashed = await getPasswordHash()
+
+    return sha256.update(password).toString() == realHashed
+}
+
+export async function setPasswordToHash(password: string) {
+    const hashed = sha256.update(password)
+    return AsyncStorage.setItem("passwordHash",hashed.toString())
+}
 
 //////////////////////
 /////// Profil ///////

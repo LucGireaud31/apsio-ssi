@@ -16,10 +16,31 @@ interface ButtonProps {
   rightIcon?: ReactNode;
   leftIcon?: ReactNode;
   fontSize?: number;
+  fontWeight?:
+    | "normal"
+    | "bold"
+    | "100"
+    | "200"
+    | "300"
+    | "400"
+    | "500"
+    | "600"
+    | "700"
+    | "800"
+    | "900"
+    | undefined;
 }
 
 export function Button(props: ButtonProps) {
-  const { children, style, onPress, rightIcon, leftIcon, fontSize } = props;
+  const {
+    children,
+    style,
+    onPress,
+    rightIcon,
+    leftIcon,
+    fontSize = 14,
+    fontWeight = "normal",
+  } = props;
 
   const styles = StyleSheet.create({
     container: {
@@ -35,7 +56,8 @@ export function Button(props: ButtonProps) {
     label: {
       color: "white",
       textAlign: "center",
-      fontSize: fontSize ?? 14,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
     },
     rightIcon: {
       position: "absolute",
