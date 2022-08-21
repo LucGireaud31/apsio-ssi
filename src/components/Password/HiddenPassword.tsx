@@ -7,16 +7,16 @@ interface HiddenPasswordProps {
 }
 
 export function HiddenPassword(props: HiddenPasswordProps) {
-  const {} = props;
+  const { password, max = 6 } = props;
 
   return (
     <View style={styles.container}>
-      <Circle completed={true} />
-      <Circle completed={true} />
-      <Circle completed={false} />
-      <Circle completed={false} />
-      <Circle completed={false} />
-      <Circle completed={false} />
+      {password.split("").map((_, i) => (
+        <Circle key={i} completed={true} />
+      ))}
+      {Array.from({ length: max - password.length }).map((_, i) => (
+        <Circle key={i} />
+      ))}
     </View>
   );
 }
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 
 interface CircleProps {
   size?: number;
-  completed: boolean;
+  completed?: boolean;
 }
 
 function Circle(props: CircleProps) {
@@ -41,7 +41,7 @@ function Circle(props: CircleProps) {
       style={{
         width: size,
         height: size,
-        borderColor: "gray",
+        borderColor: "black",
         borderWidth: 1,
         marginHorizontal: 0.5,
         borderRadius: size / 2,

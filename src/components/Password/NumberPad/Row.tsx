@@ -1,4 +1,4 @@
-import { Children, ReactNode } from "react";
+import { ReactNode } from "react";
 import { View, StyleSheet } from "react-native";
 
 interface RowProps {

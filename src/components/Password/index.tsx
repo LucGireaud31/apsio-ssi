@@ -1,4 +1,5 @@
 import { useSetAtom } from "jotai";
+import { useState } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { atomIsConnected } from "../../../App";
 import { setPasswordToHash, submitPassword } from "../../../localApi";
@@ -14,32 +15,44 @@ export function Password(props: PasswordProps) {
 
   const setIsConnected = useSetAtom(atomIsConnected);
 
-  const passwd = "0001";
+  const [password, setPassword] = useState("");
+
+  function handleChange(value: string | "cancel" | "fingerprint") {
+    if (value == "cancel") {
+      setPassword((pswd) => pswd.substring(0, pswd.length - 1));
+      return;
+    }
+    if (value == "fingerprint") {
+      return;
+    }
+
+    // value is number
+    setPassword((pswd) => pswd + value);
+  }
 
   return (
     <View style={styles.container}>
       <Image source={require("../../../assets/logo.png")} style={styles.logo} />
       <Text style={styles.title}>APSIO SSI</Text>
       <Text style={styles.myPassword}>Mon mot de passe</Text>
-      <HiddenPassword password={passwd} />
+      <HiddenPassword password={password} />
       <Button
         onPress={async () => {
-          const result = await submitPassword(passwd);
+          const result = await submitPassword(password);
           if (result) {
             setIsConnected(true);
-            setPasswordToHash(passwd);
+            setPasswordToHash(password);
             return;
           }
           console.log("Mauvais mdp !");
         }}
         style={styles.button}
-        fontSize={17}
         fontWeight="bold"
       >
         Valider
       </Button>
 
-      <NumberPad />
+      <NumberPad onChange={handleChange} />
     </View>
   );
 }
@@ -47,14 +60,14 @@ export function Password(props: PasswordProps) {
 const styles = StyleSheet.create({
   container: { backgroundColor: theme, height: "100%", alignItems: "center" },
   logo: {
-    width: 100,
-    height: 100,
+    width: 60,
+    height: 60,
     marginTop: 60,
     borderRadius: 50,
   },
   title: {
     color: "white",
-    fontSize: 30,
+    fontSize: 22,
     fontWeight: "bold",
   },
   myPassword: {
@@ -64,8 +77,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: themeLight,
     width: "60%",
-    height: 60,
     marginTop: 20,
-    marginBottom: 40,
+    marginBottom: 100,
   },
 });
