@@ -2,20 +2,17 @@ import { View, StyleSheet } from "react-native";
 import { theme, themeLight } from "../../styles/color";
 
 interface HiddenPasswordProps {
-  password: string;
+  length: number;
   max?: number;
 }
 
 export function HiddenPassword(props: HiddenPasswordProps) {
-  const { password, max = 6 } = props;
+  const { length, max = 6 } = props;
 
   return (
     <View style={styles.container}>
-      {password.split("").map((_, i) => (
-        <Circle key={i} completed={true} />
-      ))}
-      {Array.from({ length: max - password.length }).map((_, i) => (
-        <Circle key={i} />
+      {Array.from({ length: max }).map((_, i) => (
+        <Circle key={i} completed={i < length} />
       ))}
     </View>
   );

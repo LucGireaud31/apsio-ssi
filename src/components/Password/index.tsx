@@ -1,6 +1,7 @@
 import { useSetAtom } from "jotai";
 import { useState } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
+import Toast from "react-native-toast-message";
 import { atomIsConnected } from "../../../App";
 import { setPasswordToHash, submitPassword } from "../../../localApi";
 import { theme, themeLight } from "../../styles/color";
@@ -9,6 +10,8 @@ import { HiddenPassword } from "./HiddenPassword";
 import { NumberPad } from "./NumberPad";
 
 interface PasswordProps {}
+
+const MAX_LENGTH = 4;
 
 export function Password(props: PasswordProps) {
   const {} = props;
@@ -25,9 +28,31 @@ export function Password(props: PasswordProps) {
     if (value == "fingerprint") {
       return;
     }
-
     // value is number
-    setPassword((pswd) => pswd + value);
+    const newPassword =
+      password.length < MAX_LENGTH ? password + value : password;
+
+    if (password.length + 1 == MAX_LENGTH) {
+      // password full
+      onSubmit(newPassword);
+    }
+    setPassword(newPassword);
+  }
+
+  async function onSubmit(pswd: string) {
+    const result = await submitPassword(pswd);
+    if (result) {
+      setIsConnected(true);
+      setPasswordToHash(pswd);
+      return;
+    }
+
+    Toast.show({
+      type: "error",
+      text1: "Mauvais mot de passe",
+      text2: "Veuillez réessayer",
+      visibilityTime: 4000,
+    });
   }
 
   return (
@@ -35,23 +60,14 @@ export function Password(props: PasswordProps) {
       <Image source={require("../../../assets/logo.png")} style={styles.logo} />
       <Text style={styles.title}>APSIO SSI</Text>
       <Text style={styles.myPassword}>Mon mot de passe</Text>
-      <HiddenPassword password={password} />
+      <HiddenPassword length={password.length} max={MAX_LENGTH} />
       <Button
-        onPress={async () => {
-          const result = await submitPassword(password);
-          if (result) {
-            setIsConnected(true);
-            setPasswordToHash(password);
-            return;
-          }
-          console.log("Mauvais mdp !");
-        }}
+        onPress={() => onSubmit(password)}
         style={styles.button}
         fontWeight="bold"
       >
         Valider
       </Button>
-
       <NumberPad onChange={handleChange} />
     </View>
   );
