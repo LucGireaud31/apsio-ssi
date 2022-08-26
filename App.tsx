@@ -14,14 +14,18 @@ import { useLocalApi } from "./src/hooks/useLoacalApi";
 import { getPasswordHash, setPasswordToHash, submitPassword } from "./localApi";
 import { Password } from "./src/components/Password";
 import { LoadingPage } from "./src/components/LoadingPage";
-import { atom, useAtom, useAtomValue } from "jotai";
+import { atom, useAtomValue } from "jotai";
 import { ChooseNewPassword } from "./src/components/Password/ChooseNewPassword";
+import { ImageButton } from "./src/components/Layout/ImageButton";
+import { Drawer } from "./src/components/Drawer";
 
 export const atomIsConnected = atom(false);
 
 export default function App() {
   const Stack = createBottomTabNavigator();
   const StackBasic = createNativeStackNavigator();
+
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
   const { data: passwordData, isLoading } = useLocalApi<string>({
     promise: () => getPasswordHash(),
@@ -36,6 +40,17 @@ export default function App() {
       setPassword(passwordData);
     }
   }, [passwordData]);
+
+  function DrawerButton() {
+    return (
+      <ImageButton
+        source={require("./assets/icons/list.png")}
+        size={32}
+        onPress={() => setIsOpenDrawer(true)}
+        style={{ marginRight: 30 }}
+      />
+    );
+  }
 
   return (
     <>
@@ -64,66 +79,76 @@ export default function App() {
               )}
             </StackBasic.Navigator>
           ) : (
-            <Stack.Navigator
-              initialRouteName="Send"
-              tabBar={(props) => <Footer {...props} />}
+            <Drawer
+              onClose={() => setIsOpenDrawer(false)}
+              isOpen={isOpenDrawer}
             >
-              <Stack.Screen
-                name="Send"
-                component={Send}
-                options={{
-                  title: "Envoyer mes données",
-                  headerStyle: { backgroundColor: theme },
-                  headerTintColor: "white",
-                  headerTitleAlign: "center",
-                  headerShadowVisible: false,
-                }}
-              />
-              <Stack.Screen
-                name="Cards"
-                component={Cards}
-                options={{
-                  title: "Mes cartes",
-                  headerStyle: { backgroundColor: theme },
-                  headerTintColor: "white",
-                  headerTitleAlign: "center",
-                  headerShadowVisible: false,
-                }}
-              />
-              <Stack.Screen
-                name="Banks"
-                component={Banks}
-                options={{
-                  title: "Banque",
-                  headerStyle: { backgroundColor: theme },
-                  headerTintColor: "white",
-                  headerTitleAlign: "center",
-                  headerShadowVisible: false,
-                }}
-              />
-              <Stack.Screen
-                name="Cryptos"
-                component={Cryptos}
-                options={{
-                  title: "Blockchains",
-                  headerStyle: { backgroundColor: theme },
-                  headerTintColor: "white",
-                  headerTitleAlign: "center",
-                  headerShadowVisible: false,
-                }}
-              />
-              <Stack.Screen
-                name="Profil"
-                component={Profil}
-                options={{
-                  title: "Mon profil",
-                  headerStyle: { backgroundColor: theme },
-                  headerTintColor: "white",
-                  headerTitleAlign: "center",
-                  headerShadowVisible: false,
-                }}
-              />
-            </Stack.Navigator>
+              <Stack.Navigator
+                initialRouteName="Send"
+                tabBar={(props) => <Footer {...props} />}
+              >
+                <Stack.Screen
+                  name="Send"
+                  component={Send}
+                  options={{
+                    title: "Envoyer mes données",
+                    headerStyle: { backgroundColor: theme },
+                    headerTintColor: "white",
+                    headerTitleAlign: "center",
+                    headerShadowVisible: false,
+                    headerRight: () => <DrawerButton />,
+                  }}
+                />
+                <Stack.Screen
+                  name="Cards"
+                  component={Cards}
+                  options={{
+                    title: "Mes cartes",
+                    headerStyle: { backgroundColor: theme },
+                    headerTintColor: "white",
+                    headerTitleAlign: "center",
+                    headerShadowVisible: false,
+                    headerRight: () => <DrawerButton />,
+                  }}
+                />
+                <Stack.Screen
+                  name="Banks"
+                  component={Banks}
+                  options={{
+                    title: "Banque",
+                    headerStyle: { backgroundColor: theme },
+                    headerTintColor: "white",
+                    headerTitleAlign: "center",
+                    headerShadowVisible: false,
+                    headerRight: () => <DrawerButton />,
+                  }}
+                />
+                <Stack.Screen
+                  name="Cryptos"
+                  component={Cryptos}
+                  options={{
+                    title: "Blockchains",
+                    headerStyle: { backgroundColor: theme },
+                    headerTintColor: "white",
+                    headerTitleAlign: "center",
+                    headerShadowVisible: false,
+                    headerRight: () => <DrawerButton />,
+                  }}
+                />
+                <Stack.Screen
+                  name="Profil"
+                  component={Profil}
+                  options={{
+                    title: "Mon profil",
+                    headerStyle: { backgroundColor: theme },
+                    headerTintColor: "white",
+                    headerTitleAlign: "center",
+                    headerShadowVisible: false,
+                    headerRight: () => <DrawerButton />,
+                  }}
+                />
+              </Stack.Navigator>
+            </Drawer>
           )
         ) : (
           <StackBasic.Navigator>
