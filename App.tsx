@@ -11,7 +11,7 @@ import { Profil } from "./src/components/Profil";
 import { Send } from "./src/components/Send";
 import Toast from "react-native-toast-message";
 import { useLocalApi } from "./src/hooks/useLoacalApi";
-import { getPasswordHash, setPasswordToHash, submitPassword } from "./localApi";
+import { getPasswordHash, setPasswordToHash } from "./localApi";
 import { Password } from "./src/components/Password";
 import { LoadingPage } from "./src/components/LoadingPage";
 import { atom, useAtomValue } from "jotai";
@@ -41,15 +41,24 @@ export default function App() {
     }
   }, [passwordData]);
 
-  function DrawerButton() {
-    return (
-      <ImageButton
-        source={require("./assets/icons/list.png")}
-        size={32}
-        onPress={() => setIsOpenDrawer(true)}
-        style={{ marginRight: 30 }}
-      />
-    );
+  function getHeaderStyle(title: string, hasDrawer: boolean = true): any {
+    return {
+      title,
+      headerStyle: { backgroundColor: theme },
+      headerTintColor: "white",
+      headerTitleAlign: "center",
+      headerShadowVisible: false,
+      ...(hasDrawer && {
+        headerRight: () => (
+          <ImageButton
+            source={require("./assets/icons/list.png")}
+            size={32}
+            onPress={() => setIsOpenDrawer(true)}
+            style={{ marginRight: 30 }}
+          />
+        ),
+      }),
+    };
   }
 
   return (
@@ -67,6 +76,7 @@ export default function App() {
               ) : (
                 <StackBasic.Screen
                   name="ChooseNewPassword"
+                  options={{ ...getHeaderStyle("Nouveau mot de passe", false) }}
                   component={() => (
                     <ChooseNewPassword
                       onSubmit={(password) => {
@@ -82,6 +92,9 @@ export default function App() {
             <Drawer
               onClose={() => setIsOpenDrawer(false)}
               isOpen={isOpenDrawer}
+              onResetPassword={() => {
+                setPassword(null);
+              }}
             >
               <Stack.Navigator
                 initialRouteName="Send"
@@ -91,60 +104,35 @@ export default function App() {
                   name="Send"
                   component={Send}
                   options={{
-                    title: "Envoyer mes données",
-                    headerStyle: { backgroundColor: theme },
-                    headerTintColor: "white",
-                    headerTitleAlign: "center",
-                    headerShadowVisible: false,
-                    headerRight: () => <DrawerButton />,
+                    ...getHeaderStyle("Envoyer mes données"),
                   }}
                 />
                 <Stack.Screen
                   name="Cards"
                   component={Cards}
                   options={{
-                    title: "Mes cartes",
-                    headerStyle: { backgroundColor: theme },
-                    headerTintColor: "white",
-                    headerTitleAlign: "center",
-                    headerShadowVisible: false,
-                    headerRight: () => <DrawerButton />,
+                    ...getHeaderStyle("Mes cartes"),
                   }}
                 />
                 <Stack.Screen
                   name="Banks"
                   component={Banks}
                   options={{
-                    title: "Banque",
-                    headerStyle: { backgroundColor: theme },
-                    headerTintColor: "white",
-                    headerTitleAlign: "center",
-                    headerShadowVisible: false,
-                    headerRight: () => <DrawerButton />,
+                    ...getHeaderStyle("Banque"),
                   }}
                 />
                 <Stack.Screen
                   name="Cryptos"
                   component={Cryptos}
                   options={{
-                    title: "Blockchains",
-                    headerStyle: { backgroundColor: theme },
-                    headerTintColor: "white",
-                    headerTitleAlign: "center",
-                    headerShadowVisible: false,
-                    headerRight: () => <DrawerButton />,
+                    ...getHeaderStyle("Blockchains"),
                   }}
                 />
                 <Stack.Screen
                   name="Profil"
                   component={Profil}
                   options={{
-                    title: "Mon profil",
-                    headerStyle: { backgroundColor: theme },
-                    headerTintColor: "white",
-                    headerTitleAlign: "center",
-                    headerShadowVisible: false,
-                    headerRight: () => <DrawerButton />,
+                    ...getHeaderStyle("Mon profil"),
                   }}
                 />
               </Stack.Navigator>

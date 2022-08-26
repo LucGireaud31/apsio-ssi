@@ -23,6 +23,10 @@ export async function setPasswordToHash(password: string) {
     return AsyncStorage.setItem("passwordHash",hashed.toString())
 }
 
+export async function removePassword() {
+    return AsyncStorage.removeItem("passwordHash")
+}
+
 //////////////////////
 /////// Profil ///////
 //////////////////////

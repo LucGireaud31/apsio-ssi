@@ -1,12 +1,16 @@
+import { useSetAtom } from "jotai";
 import { View, StyleSheet, Image, Text } from "react-native";
+import Toast from "react-native-toast-message";
+import { atomIsConnected } from "../../../App";
+import { removePassword } from "../../../localApi";
 import { DrawerItem } from "./DrawerItem";
 
 interface DrawerContentProps {
-  onClose(): void;
+  onResetPassword(): void;
 }
 
-export function DrawerContent(props: DrawerContentProps) {
-  const { onClose } = props;
+export function DrawerContent({ onResetPassword }: DrawerContentProps) {
+  const setIsConnected = useSetAtom(atomIsConnected);
 
   return (
     <View style={styles.container}>
@@ -18,9 +22,27 @@ export function DrawerContent(props: DrawerContentProps) {
 
         <DrawerItem
           label="Déconnexion"
-          onPress={() => {}}
+          onPress={() => {
+            setIsConnected(false);
+            Toast.show({
+              type: "info",
+              text1: "Déconnexion réussie",
+              visibilityTime: 4000,
+            });
+          }}
           source={require("../../../assets/icons/sign-out.png")}
           labelStyle={{ color: "red" }}
+          style={{ marginBottom: 20 }}
+        />
+        <DrawerItem
+          label="Changer mot de passe"
+          onPress={async () => {
+            await removePassword();
+            setIsConnected(false);
+            onResetPassword();
+          }}
+          source={require("../../../assets/icons/lock.png")}
+          labelStyle={{ color: "black" }}
           style={{ marginBottom: 20 }}
         />
         <DrawerItem
