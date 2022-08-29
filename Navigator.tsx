@@ -101,13 +101,7 @@ export function Navigator() {
         )}
       </StackBasic.Navigator>
     ) : (
-      <Drawer
-        onClose={() => setIsOpenDrawer(false)}
-        isOpen={isOpenDrawer}
-        onResetPassword={() => {
-          setHavePassword(false);
-        }}
-      >
+      <Drawer onClose={() => setIsOpenDrawer(false)} isOpen={isOpenDrawer}>
         <Stack.Navigator
           initialRouteName="Send"
           tabBar={(props) => <Footer {...props} />}

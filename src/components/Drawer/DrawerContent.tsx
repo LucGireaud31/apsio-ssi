@@ -7,14 +7,10 @@ import { removePassword } from "../../../localApi";
 import { DrawerItem } from "./DrawerItem";
 
 interface DrawerContentProps {
-  onResetPassword(): void;
   onClose(): void;
 }
 
-export function DrawerContent({
-  onResetPassword,
-  onClose,
-}: DrawerContentProps) {
+export function DrawerContent({ onClose }: DrawerContentProps) {
   const setIsConnected = useSetAtom(atomIsConnected);
 
   const navigation = useNavigation();
@@ -35,7 +31,7 @@ export function DrawerContent({
             Toast.show({
               type: "info",
               text1: "Déconnexion réussie",
-              visibilityTime: 4000,
+              visibilityTime: 2000,
             });
             onClose();
           }}
@@ -47,9 +43,6 @@ export function DrawerContent({
           label="Changer mot de passe"
           onPress={async () => {
             navigation.navigate("ModifyPassword" as any);
-            // await removePassword();
-            // setIsConnected(false);
-            // onResetPassword();
             onClose();
           }}
           source={require("../../../assets/icons/lock.png")}

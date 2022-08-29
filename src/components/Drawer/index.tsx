@@ -8,11 +8,10 @@ interface DrawerProps {
   children: ReactNode;
   isOpen: boolean;
   onClose(): void;
-  onResetPassword(): void;
 }
 
 export function Drawer(props: DrawerProps) {
-  const { children, isOpen, onClose, onResetPassword } = props;
+  const { children, isOpen, onClose } = props;
 
   const [display, setDisplay] = useState(false);
 
@@ -26,9 +25,7 @@ export function Drawer(props: DrawerProps) {
     <DrawerPkg
       type="overlay"
       open={isOpen}
-      content={
-        <DrawerContent onResetPassword={onResetPassword} onClose={onClose} />
-      }
+      content={<DrawerContent onClose={onClose} />}
       side="right"
       openDrawerOffset={0.3}
       onCloseStart={onClose}
