@@ -6,9 +6,7 @@ export function LoadingPage(props: LoadingPageProps) {
   const {} = props;
 
   return (
-    <View style={styles.container}>
-      <Text>Chargement...</Text>
-    </View>
+    <View style={styles.container}>{/* <Text>Chargement...</Text> */}</View>
   );
 }
 

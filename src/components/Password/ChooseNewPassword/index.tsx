@@ -42,7 +42,6 @@ export function ChooseNewPassword(props: ChooseNewPasswordProps) {
     Toast.show({
       type: "success",
       text1: "Mot de passe modifié avec succés",
-      text2: "Reconnectez-vous",
       visibilityTime: 4000,
     });
   }

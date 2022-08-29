@@ -49,14 +49,14 @@ export function DrawerContent({ onClose }: DrawerContentProps) {
           labelStyle={{ color: "black" }}
           style={{ marginBottom: 20 }}
         />
-        <DrawerItem
+        {/* <DrawerItem
           label="Paramètres"
           onPress={() => {
             onClose();
           }}
           source={require("../../../assets/icons/setting.png")}
           labelStyle={{ color: "black" }}
-        />
+        /> */}
       </View>
       <View style={styles.footer}>
         <Text style={styles.footerTextVersion}>APSIO SSI v1.0.0</Text>
