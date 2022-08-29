@@ -3,7 +3,6 @@ import { useSetAtom } from "jotai";
 import { View, StyleSheet, Image, Text } from "react-native";
 import Toast from "react-native-toast-message";
 import { atomIsConnected } from "../../../App";
-import { removePassword } from "../../../localApi";
 import { DrawerItem } from "./DrawerItem";
 
 interface DrawerContentProps {
