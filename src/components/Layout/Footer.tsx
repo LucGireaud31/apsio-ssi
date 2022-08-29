@@ -4,6 +4,7 @@ import { View, StyleSheet, Keyboard } from "react-native";
 import { theme } from "../../styles/color";
 import { ImageButton } from "./ImageButton";
 import { atom, useSetAtom } from "jotai";
+import { sleep } from "../../utils/promise";
 
 const LINKS = [
   {
@@ -41,9 +42,10 @@ export function Footer({ navigation }: BottomTabBarProps) {
     const onShow = Keyboard.addListener("keyboardDidShow", () =>
       setVisible(false)
     );
-    const onHide = Keyboard.addListener("keyboardDidHide", () =>
-      setVisible(true)
-    );
+    const onHide = Keyboard.addListener("keyboardDidHide", async () => {
+      await sleep(60);
+      setVisible(true);
+    });
     return () => {
       onShow.remove();
       onHide.remove();

@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { useSetAtom } from "jotai";
 import { View, StyleSheet, Image, Text } from "react-native";
 import Toast from "react-native-toast-message";
@@ -7,10 +8,16 @@ import { DrawerItem } from "./DrawerItem";
 
 interface DrawerContentProps {
   onResetPassword(): void;
+  onClose(): void;
 }
 
-export function DrawerContent({ onResetPassword }: DrawerContentProps) {
+export function DrawerContent({
+  onResetPassword,
+  onClose,
+}: DrawerContentProps) {
   const setIsConnected = useSetAtom(atomIsConnected);
+
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -24,11 +31,13 @@ export function DrawerContent({ onResetPassword }: DrawerContentProps) {
           label="Déconnexion"
           onPress={() => {
             setIsConnected(false);
+
             Toast.show({
               type: "info",
               text1: "Déconnexion réussie",
               visibilityTime: 4000,
             });
+            onClose();
           }}
           source={require("../../../assets/icons/sign-out.png")}
           labelStyle={{ color: "red" }}
@@ -37,9 +46,11 @@ export function DrawerContent({ onResetPassword }: DrawerContentProps) {
         <DrawerItem
           label="Changer mot de passe"
           onPress={async () => {
-            await removePassword();
-            setIsConnected(false);
-            onResetPassword();
+            navigation.navigate("ModifyPassword" as any);
+            // await removePassword();
+            // setIsConnected(false);
+            // onResetPassword();
+            onClose();
           }}
           source={require("../../../assets/icons/lock.png")}
           labelStyle={{ color: "black" }}
@@ -47,7 +58,9 @@ export function DrawerContent({ onResetPassword }: DrawerContentProps) {
         />
         <DrawerItem
           label="Paramètres"
-          onPress={() => {}}
+          onPress={() => {
+            onClose();
+          }}
           source={require("../../../assets/icons/setting.png")}
           labelStyle={{ color: "black" }}
         />

@@ -26,7 +26,9 @@ export function Drawer(props: DrawerProps) {
     <DrawerPkg
       type="overlay"
       open={isOpen}
-      content={<DrawerContent onResetPassword={onResetPassword} />}
+      content={
+        <DrawerContent onResetPassword={onResetPassword} onClose={onClose} />
+      }
       side="right"
       openDrawerOffset={0.3}
       onCloseStart={onClose}
