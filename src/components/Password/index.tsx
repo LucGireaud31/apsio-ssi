@@ -1,10 +1,11 @@
 import { useSetAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import Toast from "react-native-toast-message";
 import { atomClearPassword, atomIsConnected } from "../../../App";
 import { saveHashedPassword, submitPassword } from "../../../localApi";
 import { theme, themeLight } from "../../styles/color";
+import { atomIsDataInvalidate } from "../Layout/Footer";
 import { Button } from "../shared/Button";
 import { HiddenPassword } from "./HiddenPassword";
 import { NumberPad } from "./NumberPad";
@@ -18,6 +19,7 @@ export function Password(props: PasswordProps) {
 
   const setIsConnected = useSetAtom(atomIsConnected);
   const setClearPassword = useSetAtom(atomClearPassword);
+  const setIsDataInvalidate = useSetAtom(atomIsDataInvalidate);
 
   const [password, setPassword] = useState("");
 
@@ -57,6 +59,10 @@ export function Password(props: PasswordProps) {
     });
     setPassword("");
   }
+
+  useEffect(() => {
+    setIsDataInvalidate(true);
+  }, []);
 
   return (
     <View style={styles.container}>

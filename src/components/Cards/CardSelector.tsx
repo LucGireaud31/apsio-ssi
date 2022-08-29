@@ -1,9 +1,10 @@
+import { useAtomValue } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, ScrollView, Text } from "react-native";
+import { atomClearPassword } from "../../../App";
 import { addCard, getCards, removeCard, setCard } from "../../../localApi";
 import { theme } from "../../styles/color";
 import { ICard } from "../../types/card";
-import { sleep } from "../../utils/promise";
 import { Button } from "../shared/Button";
 import { Card } from "./Card";
 
@@ -16,9 +17,11 @@ export function CardSelector(props: CardSelectorProps) {
 
   const [cards, setCards] = useState<ICard[]>([]);
 
+  const clearPassword = useAtomValue(atomClearPassword);
+
   useEffect(() => {
     (async () => {
-      const newCards = (await getCards())?.[menu] ?? [];
+      const newCards = (await getCards(clearPassword))?.[menu] ?? [];
       setCards(newCards);
     })();
   }, [menu]);
@@ -38,11 +41,11 @@ export function CardSelector(props: CardSelectorProps) {
               onDelete={() => {
                 const newCards = cards.filter((_, j) => i != j);
                 setCards(newCards);
-                removeCard(i, menu);
+                removeCard(i, menu, clearPassword);
                 ref.current?.scrollToEnd({ animated: true });
               }}
               onChange={async (name, number, cvv) => {
-                setCard(i, menu, { name, number, cvv });
+                setCard(i, menu, { name, number, cvv }, clearPassword);
               }}
             />
           </View>
@@ -51,7 +54,7 @@ export function CardSelector(props: CardSelectorProps) {
       <Button
         style={styles.button}
         onPress={async () => {
-          const newCards = await addCard(menu);
+          const newCards = await addCard(menu, clearPassword);
 
           if (newCards[menu]) {
             setCards(newCards[menu]);

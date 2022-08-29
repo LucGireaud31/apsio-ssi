@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
-import { Send } from ".";
 import { getProfil, getCards } from "../../../localApi";
 import { useLocalApi } from "../../hooks/useLoacalApi";
 import { theme } from "../../styles/color";
@@ -11,8 +10,9 @@ import { Container } from "../Layout/Container";
 import { atomIsDataInvalidate } from "../Layout/Footer";
 import { Button } from "../shared/Button";
 import { DataSelector } from "./DataSelector";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { french } from "../../utils/translate";
+import { atomClearPassword } from "../../../App";
 
 interface SelectDataViewProps {
   onNextStep(v: SharedValuesType): void;
@@ -25,12 +25,14 @@ export function SelectDataView(props: SelectDataViewProps) {
   const [sharedValues, setSharedValues] =
     useState<SharedValuesType>(defaultSharedValues);
 
+  const clearPassword = useAtomValue(atomClearPassword);
+
   const {
     data: profil,
     isLoading: isLoadingProfil,
     refetch: refetchProfil,
   } = useLocalApi<IProfil>({
-    promise: () => getProfil(),
+    promise: () => getProfil(clearPassword),
     disableFirstFetch: true,
   });
 
@@ -41,7 +43,7 @@ export function SelectDataView(props: SelectDataViewProps) {
   } = useLocalApi<{
     [key: string]: ICard[];
   } | null>({
-    promise: () => getCards(),
+    promise: () => getCards(clearPassword),
     disableFirstFetch: true,
   });
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Text } from "react-native";
 import { RoundedTop } from "../Layout/RoundedTop";
 import { DisplayStep } from "./DisplayStep";
 import { TabView, SceneMap } from "react-native-tab-view";
@@ -11,8 +10,9 @@ import { getSpecifiedCards } from "../../../localApi";
 import * as Clipboard from "expo-clipboard";
 import { ScanQRCode } from "../ScanQRCode";
 import Toast from "react-native-toast-message";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { atomIsDataInvalidate } from "../Layout/Footer";
+import { atomClearPassword } from "../../../App";
 
 const DEFAULT_SHAREDVALUES = {
   cards: [],
@@ -21,6 +21,8 @@ const DEFAULT_SHAREDVALUES = {
 
 export function Send() {
   const [step, setStep] = useState(0);
+
+  const clearPassword = useAtomValue(atomClearPassword);
 
   const [sharedValues, setSharedValues] =
     useState<SharedValuesType>(DEFAULT_SHAREDVALUES);
@@ -44,7 +46,8 @@ export function Send() {
 
     // Cards
     const cards = await getSpecifiedCards(
-      sharedValues.cards.map((c) => c.value)
+      sharedValues.cards.map((c) => c.value),
+      clearPassword
     );
     if (cards && cards.length > 0) {
       result["cards"] = cards;

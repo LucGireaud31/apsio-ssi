@@ -1,9 +1,10 @@
 import { StyleSheet, Image, TouchableHighlight } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
-import * as ExpoFileSystem from "expo-file-system";
 import { useEffect, useState } from "react";
 import { getProfilPicture, setProfilPicture } from "../../../localApi";
 import { useLocalApi } from "../../hooks/useLoacalApi";
+import { useAtomValue } from "jotai";
+import { atomClearPassword } from "../../../App";
 
 interface ProfilPictureUploadProps {
   size: number;
@@ -21,10 +22,12 @@ interface IFile {
 export function ProfilPictureUpload(props: ProfilPictureUploadProps) {
   const { size, style } = props;
 
+  const clearPassword = useAtomValue(atomClearPassword);
+
   const [image, setImage] = useState<null | string>();
 
   const { data: profilPicture, isLoading } = useLocalApi<string>({
-    promise: getProfilPicture,
+    promise: () => getProfilPicture(clearPassword),
   });
 
   useEffect(() => {
@@ -49,7 +52,7 @@ export function ProfilPictureUpload(props: ProfilPictureUploadProps) {
 
         if (file) {
           setImage(file.uri);
-          setProfilPicture(file.uri);
+          setProfilPicture(file.uri, clearPassword);
         }
       }}
       underlayColor="#EBEBEB"

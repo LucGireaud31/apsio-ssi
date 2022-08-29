@@ -6,14 +6,18 @@ import { getProfil } from "../../../localApi";
 import { useLocalApi } from "../../hooks/useLoacalApi";
 import { IProfil } from "../../types/profil";
 import { ProfilPictureUpload } from "./ProfilPictureUpload";
+import { useAtomValue } from "jotai";
+import { atomClearPassword } from "../../../App";
 
 interface ProfilProps {}
 
 export function Profil(props: ProfilProps) {
   const {} = props;
 
+  const clearPassword = useAtomValue(atomClearPassword);
+
   const { data: profil, isLoading } = useLocalApi<IProfil>({
-    promise: () => getProfil(),
+    promise: () => getProfil(clearPassword),
   });
 
   return (

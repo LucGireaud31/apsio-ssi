@@ -2,6 +2,7 @@ import { ICard } from './src/types/card';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IProfil } from "./src/types/profil";
 import {SHA256,enc} from 'crypto-js';
+import { getItem, setItem } from './src/utils/crypto';
 
 
 //////////////////////
@@ -30,21 +31,21 @@ export async function removePassword() {
 /////// Profil ///////
 //////////////////////
 
-export async function getProfil(): Promise<IProfil | null> {
+export async function getProfil(password:string): Promise<IProfil | null> {
 
-    const profil = await AsyncStorage.getItem("profil");
+    const profil = await getItem("profil",password);
 
     try {
 
         return profil ? JSON.parse(profil) : null
     } catch (err) {
-        AsyncStorage.setItem("profil", "");
+        setItem("profil", "",password);
     }
     return null
 }
 
-export async function setProfil(accessor: string, newValue: string) {
-    const profil = await getProfil();
+export async function setProfil(accessor: string, newValue: string,password:string) {
+    const profil = await getProfil(password);
 
     const result: { [key: string]: any } = {}
 
@@ -55,26 +56,26 @@ export async function setProfil(accessor: string, newValue: string) {
     }
 
     result[accessor] = newValue
-    AsyncStorage.setItem("profil", Object.keys(result).length > 0 ? JSON.stringify(result) : "");
+    setItem("profil", Object.keys(result).length > 0 ? JSON.stringify(result) : "",password);
 }
 
 //////////////////////
 /////// Cards ////////
 //////////////////////
 
-export async function getCards(): Promise<{ [key: string]: ICard[] } | null> {
-    const cards = await AsyncStorage.getItem("cards");
+export async function getCards(password:string): Promise<{ [key: string]: ICard[] } | null> {
+    const cards = await getItem("cards",password);
 
     try {
         return cards ? JSON.parse(cards) : null
     } catch (err) {
-        AsyncStorage.setItem("cards", "");
+        setItem("cards", "",password);
     }
     return null
 }
 
-export async function getSpecifiedCards(specified: string[]) {
-    const cards = await AsyncStorage.getItem("cards");
+export async function getSpecifiedCards(specified: string[],password:string) {
+    const cards = await getItem("cards",password);
 
     try {
         const currentCards = cards ? JSON.parse(cards) : null
@@ -88,14 +89,14 @@ export async function getSpecifiedCards(specified: string[]) {
         return specifiedCards
 
     } catch (err) {
-        AsyncStorage.setItem("cards", "");
+        setItem("cards", "",password);
     }
     return null
     
 }
 
-export async function addCard(menu: number) {
-    let cards = await getCards();
+export async function addCard(menu: number,password:string) {
+    let cards = await getCards(password);
 
     if (cards && cards[menu]) {
         cards[menu].push({})
@@ -106,31 +107,31 @@ export async function addCard(menu: number) {
         cards = { ...tempsCards }
     }
 
-    AsyncStorage.setItem("cards", cards ? JSON.stringify(cards) : "");
+    setItem("cards", cards ? JSON.stringify(cards) : "",password);
 
     return cards
 
 }
 
-export async function setCard(index: number, menu: number, newCard: ICard) {
-    const cards = await getCards();
+export async function setCard(index: number, menu: number, newCard: ICard,password:string) {
+    const cards = await getCards(password);
 
     if (cards) {
         cards[menu][index] = newCard
     }
 
-    AsyncStorage.setItem("cards", cards ? JSON.stringify(cards) : "");
+    setItem("cards", cards ? JSON.stringify(cards) : "",password);
     return cards
 
 }
-export async function removeCard(index: number, menu: number) {
-    const cards = await getCards();
+export async function removeCard(index: number, menu: number,password:string) {
+    const cards = await getCards(password);
 
     if (cards) {
         cards[menu] = cards[menu].filter((_,i)=>i != index)
     }
 
-    AsyncStorage.setItem("cards", cards ? JSON.stringify(cards) : "");
+    setItem("cards", cards ? JSON.stringify(cards) : "",password);
 
 }
 
@@ -139,10 +140,10 @@ export async function removeCard(index: number, menu: number) {
 /// Profil picture ///
 //////////////////////
 
-export async function getProfilPicture() {
-    return AsyncStorage.getItem("profilPicture")
+export async function getProfilPicture(password:string) {
+    return getItem("profilPicture",password)
 }
 
-export async function setProfilPicture(url:string) {
-    return AsyncStorage.setItem("profilPicture",url)
+export async function setProfilPicture(url:string,password:string) {
+    return setItem("profilPicture",url,password)
 }
