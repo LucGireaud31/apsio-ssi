@@ -2,8 +2,8 @@ import { useSetAtom } from "jotai";
 import { useState } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import Toast from "react-native-toast-message";
-import { atomIsConnected } from "../../../App";
-import { setPasswordToHash, submitPassword } from "../../../localApi";
+import { atomClearPassword, atomIsConnected } from "../../../App";
+import { saveHashedPassword, submitPassword } from "../../../localApi";
 import { theme, themeLight } from "../../styles/color";
 import { Button } from "../shared/Button";
 import { HiddenPassword } from "./HiddenPassword";
@@ -17,6 +17,7 @@ export function Password(props: PasswordProps) {
   const {} = props;
 
   const setIsConnected = useSetAtom(atomIsConnected);
+  const setClearPassword = useSetAtom(atomClearPassword);
 
   const [password, setPassword] = useState("");
 
@@ -43,7 +44,8 @@ export function Password(props: PasswordProps) {
     const result = await submitPassword(pswd);
     if (result) {
       setIsConnected(true);
-      setPasswordToHash(pswd);
+      saveHashedPassword(pswd);
+      setClearPassword(pswd);
       return;
     }
 

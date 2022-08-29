@@ -5,6 +5,7 @@ import { Navigator } from "./Navigator";
 import { atom } from "jotai";
 
 export const atomIsConnected = atom(false);
+export const atomClearPassword = atom("");
 
 export default function App() {
   return (

@@ -9,7 +9,7 @@ import { Footer } from "./src/components/Layout/Footer";
 import { Profil } from "./src/components/Profil";
 import { Send } from "./src/components/Send";
 import { useLocalApi } from "./src/hooks/useLoacalApi";
-import { getPasswordHash, setPasswordToHash } from "./localApi";
+import { getPasswordHash, saveHashedPassword } from "./localApi";
 import { Password } from "./src/components/Password";
 import { LoadingPage } from "./src/components/LoadingPage";
 import { useAtomValue } from "jotai";
@@ -76,7 +76,7 @@ export function Navigator() {
               <ChooseNewPassword
                 onSubmit={(password) => {
                   setHavePassword(true);
-                  setPasswordToHash(password);
+                  saveHashedPassword(password);
                 }}
               />
             )}
