@@ -53,6 +53,7 @@ export function Password(props: PasswordProps) {
       text2: "Veuillez réessayer",
       visibilityTime: 4000,
     });
+    setPassword("");
   }
 
   return (
