@@ -18,7 +18,7 @@ export function GenerateQRCode(props: GenerateQRCodeProps) {
   const { onQuit, getJSON } = props;
 
   const { data, isLoading } = useLocalApi({ promise: () => getJSON() });
-
+  console.log(isLoading);
   return (
     <Container style={styles.container} label="Faire scanner ce QR Code" fix>
       <View style={styles.warningContainer}>
@@ -30,13 +30,13 @@ export function GenerateQRCode(props: GenerateQRCodeProps) {
           <Bold> VOS DONNÉES</Bold> sélectionnées précédemment
         </Text>
       </View>
-      <SkeletonContent
-        containerStyle={styles.qrCodeContainer}
-        isLoading={isLoading}
-        layout={[styles.skeletonContainer]}
-      >
-        <QRCode value={JSON.stringify(data)} size={250} />
-      </SkeletonContent>
+      {isLoading ? (
+        <Loader label="Génération du Qr Code..." style={{ height: 250 }} />
+      ) : (
+        <View style={styles.qrCodeContainer}>
+          <QRCode value={JSON.stringify(data)} size={250} />
+        </View>
+      )}
       <Button style={styles.button} onPress={onQuit}>
         Quitter
       </Button>
@@ -67,9 +67,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   qrCodeContainer: {
-    flex: 1,
+    marginVertical: 35,
     alignItems: "center",
-    justifyContent: "center",
   },
   skeletonContainer: {
     width: 250,

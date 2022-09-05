@@ -1,4 +1,5 @@
 import React from "react";
+import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import { Navigator } from "./Navigator";

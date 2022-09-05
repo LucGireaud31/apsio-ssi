@@ -61,7 +61,6 @@ export function Send() {
         SelectDataView({
           onNextStep: (sharedValues) => {
             setStep(1);
-
             sharedValues.profil = sharedValues.profil.map((p) => ({
               ...p,
               label: p.label
@@ -69,7 +68,6 @@ export function Send() {
                 .filter((_, i) => i != 0)
                 .join(":"),
             }));
-
             setSharedValues(sharedValues);
           },
           defaultSharedValues: sharedValues,
@@ -82,7 +80,6 @@ export function Send() {
         SelectSendTypeView({
           onNextStep: (sendType) => {
             setSendType(sendType);
-
             if (sendType == "copy") {
               onCopy(getJSONValue);
               return;
