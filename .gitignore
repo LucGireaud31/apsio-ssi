@@ -11,6 +11,6 @@ npm-debug.*
 web-build/
 
 credentials.json
-
+*.keystore
 # macOS
 .DS_Store
