@@ -10,7 +10,12 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "android":{
+        "credentialsSource": "local"
+
+      }
+    }
   },
   "submit": {
     "production": {}
