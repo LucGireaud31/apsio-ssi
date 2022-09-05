@@ -18,7 +18,7 @@ export function GenerateQRCode(props: GenerateQRCodeProps) {
   const { onQuit, getJSON } = props;
 
   const { data, isLoading } = useLocalApi({ promise: () => getJSON() });
-  console.log(isLoading);
+
   return (
     <Container style={styles.container} label="Faire scanner ce QR Code" fix>
       <View style={styles.warningContainer}>
