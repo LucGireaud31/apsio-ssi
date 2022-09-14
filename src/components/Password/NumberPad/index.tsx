@@ -45,6 +45,5 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     alignItems: "center",
-    paddingTop: 30,
   },
 });
