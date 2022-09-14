@@ -18,6 +18,7 @@ import { ImageButton } from "./src/components/Layout/ImageButton";
 import { Drawer } from "./src/components/Drawer";
 import { atomIsConnected } from "./App";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 export function Navigator() {
   const StackFooter = createBottomTabNavigator();
@@ -59,96 +60,103 @@ export function Navigator() {
     };
   }
 
-  return !isLoading ? (
-    !isConnected ? (
-      <Stack.Navigator>
-        {havePassword ? (
-          <Stack.Screen
-            options={{ header: () => <></> }}
-            name="Password"
-            component={() => <Password />}
-          />
-        ) : (
-          <Stack.Screen
-            name="ChooseNewPassword"
-            options={{ ...getHeaderStyle("Nouveau mot de passe", false) }}
-            component={() => (
-              <ChooseNewPassword
-                onSubmit={(password) => {
-                  setHavePassword(true);
-                  saveHashedPassword(password);
-                }}
+  return (
+    <>
+      {!isLoading ? (
+        !isConnected ? (
+          <Stack.Navigator>
+            {havePassword ? (
+              <Stack.Screen
+                options={{ header: () => <></> }}
+                name="Password"
+                component={() => <Password />}
+              />
+            ) : (
+              <Stack.Screen
+                name="ChooseNewPassword"
+                options={{ ...getHeaderStyle("Nouveau mot de passe", false) }}
+                component={() => (
+                  <ChooseNewPassword
+                    onSubmit={(password) => {
+                      setHavePassword(true);
+                      saveHashedPassword(password);
+                    }}
+                  />
+                )}
               />
             )}
-          />
-        )}
-      </Stack.Navigator>
-    ) : (
-      <Drawer onClose={() => setIsOpenDrawer(false)} isOpen={isOpenDrawer}>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" options={{ header: () => <></> }}>
-            {() => (
-              <SafeAreaView style={{ height: "100%", backgroundColor: theme }}>
-                <StackFooter.Navigator
-                  tabBar={(props) => <Footer {...props} />}
-                >
-                  <StackFooter.Screen
-                    name="Send"
-                    component={Send}
-                    options={{
-                      ...getHeaderStyle("Envoyer mes données"),
-                    }}
-                  />
-                  <StackFooter.Screen
-                    name="Cards"
-                    component={Cards}
-                    options={{
-                      ...getHeaderStyle("Mes cartes"),
-                    }}
-                  />
-                  <StackFooter.Screen
-                    name="Banks"
-                    component={Banks}
-                    options={{
-                      ...getHeaderStyle("Banque"),
-                    }}
-                  />
-                  <StackFooter.Screen
-                    name="Cryptos"
-                    component={Cryptos}
-                    options={{
-                      ...getHeaderStyle("Blockchains"),
-                    }}
-                  />
-                  <StackFooter.Screen
-                    name="Profil"
-                    component={Profil}
-                    options={{
-                      ...getHeaderStyle("Mon profil"),
-                    }}
-                  />
-                </StackFooter.Navigator>
-              </SafeAreaView>
-            )}
-          </Stack.Screen>
+          </Stack.Navigator>
+        ) : (
+          <Drawer onClose={() => setIsOpenDrawer(false)} isOpen={isOpenDrawer}>
+            <Stack.Navigator initialRouteName="Home">
+              <Stack.Screen name="Home" options={{ header: () => <></> }}>
+                {() => (
+                  <SafeAreaView
+                    style={{ height: "100%", backgroundColor: theme }}
+                  >
+                    <StackFooter.Navigator
+                      tabBar={(props) => <Footer {...props} />}
+                    >
+                      <StackFooter.Screen
+                        name="Send"
+                        component={Send}
+                        options={{
+                          ...getHeaderStyle("Envoyer mes données"),
+                        }}
+                      />
+                      <StackFooter.Screen
+                        name="Cards"
+                        component={Cards}
+                        options={{
+                          ...getHeaderStyle("Mes cartes"),
+                        }}
+                      />
+                      <StackFooter.Screen
+                        name="Banks"
+                        component={Banks}
+                        options={{
+                          ...getHeaderStyle("Banque"),
+                        }}
+                      />
+                      <StackFooter.Screen
+                        name="Cryptos"
+                        component={Cryptos}
+                        options={{
+                          ...getHeaderStyle("Blockchains"),
+                        }}
+                      />
+                      <StackFooter.Screen
+                        name="Profil"
+                        component={Profil}
+                        options={{
+                          ...getHeaderStyle("Mon profil"),
+                        }}
+                      />
+                    </StackFooter.Navigator>
+                  </SafeAreaView>
+                )}
+              </Stack.Screen>
+              <Stack.Screen
+                name="ModifyPassword"
+                options={{
+                  ...getHeaderStyle("Modifier mot de passe", false),
+                  animation: "slide_from_bottom",
+                }}
+                component={ChooseNewPassword}
+              />
+            </Stack.Navigator>
+          </Drawer>
+        )
+      ) : (
+        <Stack.Navigator>
           <Stack.Screen
-            name="ModifyPassword"
-            options={{
-              ...getHeaderStyle("Modifier mot de passe", false),
-              animation: "slide_from_bottom",
-            }}
-            component={ChooseNewPassword}
+            options={{ header: () => <></> }}
+            name="Loading"
+            component={LoadingPage}
           />
         </Stack.Navigator>
-      </Drawer>
-    )
-  ) : (
-    <Stack.Navigator>
-      <Stack.Screen
-        options={{ header: () => <></> }}
-        name="Loading"
-        component={LoadingPage}
-      />
-    </Stack.Navigator>
+      )}
+      <StatusBar style="light" />
+    </>
   );
 }

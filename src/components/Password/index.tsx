@@ -1,6 +1,7 @@
 import { useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { atomClearPassword, atomIsConnected } from "../../../App";
 import { saveHashedPassword, submitPassword } from "../../../localApi";
@@ -65,7 +66,7 @@ export function Password(props: PasswordProps) {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Image source={require("../../../assets/logo.png")} style={styles.logo} />
       <Text style={styles.title}>APSIO SSI</Text>
       <Text style={styles.myPassword}>Mon mot de passe</Text>
@@ -78,7 +79,7 @@ export function Password(props: PasswordProps) {
         Valider
       </Button>
       <NumberPad onChange={handleChange} />
-    </View>
+    </SafeAreaView>
   );
 }
 
