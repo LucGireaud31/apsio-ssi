@@ -10,6 +10,7 @@ import { atomIsDataInvalidate } from "../Layout/Footer";
 import { Button } from "../shared/Button";
 import { HiddenPassword } from "./HiddenPassword";
 import { NumberPad } from "./NumberPad";
+import * as NavigationBar from "expo-navigation-bar";
 
 interface PasswordProps {}
 
@@ -63,6 +64,8 @@ export function Password(props: PasswordProps) {
 
   useEffect(() => {
     setIsDataInvalidate(true);
+
+    NavigationBar.setBackgroundColorAsync("white");
   }, []);
 
   return (

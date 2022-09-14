@@ -1,11 +1,13 @@
 import { useSetAtom } from "jotai";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, Text, Image, TextInput } from "react-native";
 import Toast from "react-native-toast-message";
-import { atomClearPassword, atomIsConnected } from "../../../../App";
+import { atomIsConnected } from "../../../../App";
 import { saveHashedPassword } from "../../../../localApi";
 import { Button } from "../../shared/Button";
 import { InputPassword } from "./InputPassword";
+import * as NavigationBar from "expo-navigation-bar";
+import { theme } from "../../../styles/color";
 
 interface ChooseNewPasswordProps {
   onSubmit?(pswd: string): void;
@@ -20,7 +22,14 @@ export function ChooseNewPassword(props: ChooseNewPasswordProps) {
   const [error, setError] = useState<string>("");
 
   const setIsConnected = useSetAtom(atomIsConnected);
-  const setClearPassword = useSetAtom(atomClearPassword);
+
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync("white");
+
+    return () => {
+      NavigationBar.setBackgroundColorAsync(theme);
+    };
+  }, []);
 
   async function handleSubmit(p1: string, p2: string) {
     if (p1.length != 4) {

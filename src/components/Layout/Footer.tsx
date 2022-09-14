@@ -5,6 +5,7 @@ import { theme } from "../../styles/color";
 import { ImageButton } from "./ImageButton";
 import { atom, useSetAtom } from "jotai";
 import { sleep } from "../../utils/promise";
+import * as NavigationBar from "expo-navigation-bar";
 
 const LINKS = [
   {
@@ -39,6 +40,8 @@ export function Footer({ navigation }: BottomTabBarProps) {
   const setIsDataInvalidate = useSetAtom(atomIsDataInvalidate);
 
   useEffect(() => {
+    NavigationBar.setBackgroundColorAsync(theme);
+
     const onShow = Keyboard.addListener("keyboardDidShow", () =>
       setVisible(false)
     );

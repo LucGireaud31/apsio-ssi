@@ -87,65 +87,70 @@ export function Navigator() {
             )}
           </Stack.Navigator>
         ) : (
-          <Drawer onClose={() => setIsOpenDrawer(false)} isOpen={isOpenDrawer}>
-            <Stack.Navigator initialRouteName="Home">
-              <Stack.Screen name="Home" options={{ header: () => <></> }}>
-                {() => (
-                  <SafeAreaView
-                    style={{ height: "100%", backgroundColor: theme }}
-                  >
-                    <StackFooter.Navigator
-                      tabBar={(props) => <Footer {...props} />}
+          <>
+            <Drawer
+              onClose={() => setIsOpenDrawer(false)}
+              isOpen={isOpenDrawer}
+            >
+              <Stack.Navigator initialRouteName="Home">
+                <Stack.Screen name="Home" options={{ header: () => <></> }}>
+                  {() => (
+                    <SafeAreaView
+                      style={{ height: "100%", backgroundColor: theme }}
                     >
-                      <StackFooter.Screen
-                        name="Send"
-                        component={Send}
-                        options={{
-                          ...getHeaderStyle("Envoyer mes données"),
-                        }}
-                      />
-                      <StackFooter.Screen
-                        name="Cards"
-                        component={Cards}
-                        options={{
-                          ...getHeaderStyle("Mes cartes"),
-                        }}
-                      />
-                      <StackFooter.Screen
-                        name="Banks"
-                        component={Banks}
-                        options={{
-                          ...getHeaderStyle("Banque"),
-                        }}
-                      />
-                      <StackFooter.Screen
-                        name="Cryptos"
-                        component={Cryptos}
-                        options={{
-                          ...getHeaderStyle("Blockchains"),
-                        }}
-                      />
-                      <StackFooter.Screen
-                        name="Profil"
-                        component={Profil}
-                        options={{
-                          ...getHeaderStyle("Mon profil"),
-                        }}
-                      />
-                    </StackFooter.Navigator>
-                  </SafeAreaView>
-                )}
-              </Stack.Screen>
-              <Stack.Screen
-                name="ModifyPassword"
-                options={{
-                  ...getHeaderStyle("Modifier mot de passe", false),
-                  animation: "slide_from_bottom",
-                }}
-                component={ChooseNewPassword}
-              />
-            </Stack.Navigator>
-          </Drawer>
+                      <StackFooter.Navigator
+                        tabBar={(props) => <Footer {...props} />}
+                      >
+                        <StackFooter.Screen
+                          name="Send"
+                          component={Send}
+                          options={{
+                            ...getHeaderStyle("Envoyer mes données"),
+                          }}
+                        />
+                        <StackFooter.Screen
+                          name="Cards"
+                          component={Cards}
+                          options={{
+                            ...getHeaderStyle("Mes cartes"),
+                          }}
+                        />
+                        <StackFooter.Screen
+                          name="Banks"
+                          component={Banks}
+                          options={{
+                            ...getHeaderStyle("Banque"),
+                          }}
+                        />
+                        <StackFooter.Screen
+                          name="Cryptos"
+                          component={Cryptos}
+                          options={{
+                            ...getHeaderStyle("Blockchains"),
+                          }}
+                        />
+                        <StackFooter.Screen
+                          name="Profil"
+                          component={Profil}
+                          options={{
+                            ...getHeaderStyle("Mon profil"),
+                          }}
+                        />
+                      </StackFooter.Navigator>
+                    </SafeAreaView>
+                  )}
+                </Stack.Screen>
+                <Stack.Screen
+                  name="ModifyPassword"
+                  options={{
+                    ...getHeaderStyle("Modifier mot de passe", false),
+                    animation: "slide_from_bottom",
+                  }}
+                  component={ChooseNewPassword}
+                />
+              </Stack.Navigator>
+            </Drawer>
+          </>
         )
       ) : (
         <Stack.Navigator>
