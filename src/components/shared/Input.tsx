@@ -11,6 +11,7 @@ interface InputProps {
   isPassword?: boolean;
   isNumeric?: boolean;
   maxLength?: number;
+  onChange?(newText: string): void;
 }
 
 export function Input(props: InputProps) {
@@ -23,6 +24,7 @@ export function Input(props: InputProps) {
     isPassword = false,
     isNumeric = false,
     maxLength,
+    onChange,
   } = props;
 
   const [value, setValue] = useState(defaultValue ?? "");
@@ -40,6 +42,7 @@ export function Input(props: InputProps) {
           value={value}
           onChangeText={(newValue) => {
             setValue(newValue);
+            onChange && onChange(newValue);
           }}
           onBlur={() => onSubmit && onSubmit(value)}
           {...(isNumeric && { keyboardType: "numeric" })}

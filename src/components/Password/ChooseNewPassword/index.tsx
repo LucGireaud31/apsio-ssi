@@ -31,21 +31,21 @@ export function ChooseNewPassword(props: ChooseNewPasswordProps) {
     };
   }, []);
 
-  async function handleSubmit(p1: string, p2: string) {
-    if (p1.length != 4) {
+  async function handleSubmit() {
+    if (password1.length != 4) {
       setError("Le mot de passe doit faire 4 chiffres");
       return;
     }
-    if (p1 != p2) {
+    if (password1 != password2) {
       setError("Les mots de passes ne correspondent pas");
       return;
     }
     setError("");
 
     if (onSubmit) {
-      onSubmit(p1);
+      onSubmit(password1);
     } else {
-      await saveHashedPassword(p1);
+      await saveHashedPassword(password1);
       setIsConnected(false);
     }
 
@@ -67,9 +67,11 @@ export function ChooseNewPassword(props: ChooseNewPasswordProps) {
         !
       </Text>
       <InputPassword
-        onSubmit={(value) => {
-          setPassword1(value);
+        onSubmit={() => {
           refPassword2.current?.focus();
+        }}
+        onChange={(newValue) => {
+          setPassword1(newValue);
         }}
         maxLength={4}
         subTitle="4 chiffres"
@@ -77,18 +79,16 @@ export function ChooseNewPassword(props: ChooseNewPasswordProps) {
       />
       <InputPassword
         inputRef={refPassword2}
-        onSubmit={(value) => {
-          setPassword2(value);
-          handleSubmit(password1, value);
+        onChange={(newValue) => {
+          setPassword2(newValue);
         }}
+        onSubmit={handleSubmit}
         maxLength={4}
         title="Retaper le mot de passe"
       />
       <Text style={styles.error}>{error}</Text>
 
-      <Button onPress={() => handleSubmit(password1, password2)}>
-        Enregistrer
-      </Button>
+      <Button onPress={handleSubmit}>Enregistrer</Button>
     </View>
   );
 }

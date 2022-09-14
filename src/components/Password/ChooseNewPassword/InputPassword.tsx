@@ -9,10 +9,12 @@ interface InputPasswordProps {
   style?: any;
   inputRef?: LegacyRef<TextInput>;
   maxLength?: number;
+  onChange(newValue: string): void;
 }
 
 export function InputPassword(props: InputPasswordProps) {
-  const { title, onSubmit, subTitle, style, inputRef, maxLength } = props;
+  const { title, onSubmit, subTitle, style, inputRef, maxLength, onChange } =
+    props;
 
   return (
     <View style={styles.container}>
@@ -24,6 +26,7 @@ export function InputPassword(props: InputPasswordProps) {
         label={title}
         titleStyle={styles.title}
         maxLength={maxLength}
+        onChange={onChange}
       />
       {subTitle && <Text style={styles.subTitle}>{subTitle}</Text>}
     </View>
